@@ -1,66 +1,76 @@
 using System.Security.Cryptography;
 using System.Text;
-using LibraryApp.Models;
+using System.Text.Json;
+using DotNetEnv;
+
 
 namespace LibraryApp.Services;
-    public class AuthService
+
+public static class AuthService
+{
+    // Convert password → SHA256 hash
+    public static string HashPassword(string password)
     {
-        private static readonly string UsersPath = "data/users.json";
-
-        // Convert password → SHA256 hash
-        public static string HashPassword(string password)
-        {
-            using var sha = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha.ComputeHash(bytes);
-            return Convert.ToHexString(hash); // uppercase hex string
-        }
-
-        // Register new user
-        public void Register(List<LibraryApp.Models.User> users)
-        {
-            Console.Write("Enter username: ");
-            string username = Console.ReadLine()?.Trim() ?? "";
-            if (!ValidatorService.ValidateUsername(username))
-            {
-                Console.WriteLine("Invalid username format.");
-                return;
-            }
-
-            Console.Write("Enter password: ");
-            string password = Console.ReadLine()?.Trim() ?? "";
-            if (!ValidatorService.ValidatePassword(password))
-            {
-                Console.WriteLine("Password too weak.");
-                return;
-            }
-
-            string hash = HashPassword(password);
-            int newId = users.Any() ? users.Max(u => u.Id) + 1 : 1;
-
-            users.Add(new LibraryApp.Models.User { Id = newId, Username = username, PasswordHash = hash, Role = "member" });
-            DataStore.SaveList(UsersPath, users);
-            LogService.Log($"[REGISTER] New user {username} created.");
-        }
-
-        // Login
-        public LibraryApp.Models.User? Login(List<LibraryApp.Models.User> users)
-        {
-            Console.Write("Username: ");
-            string username = Console.ReadLine()?.Trim() ?? "";
-
-            Console.Write("Password: ");
-            string password = Console.ReadLine()?.Trim() ?? "";
-
-            var user = users.FirstOrDefault(u => u.Username == username);
-            if (user == null || user.PasswordHash != HashPassword(password))
-            {
-                LogService.Log($"[LOGIN FAIL] Invalid credentials for {username}");
-                Console.WriteLine("Invalid username or password.");
-                return null;
-            }
-
-            LogService.Log($"[LOGIN] {username} logged in.");
-            return user;
-        }
+        using var sha = SHA256.Create();
+        var bytes = Encoding.UTF8.GetBytes(password);
+        var hash = sha.ComputeHash(bytes);
+        return Convert.ToHexString(hash); // uppercase hex string
     }
+
+    // Register new user
+    public static void Register(Models.User user)
+    {
+        Env.Load();
+        string jsonString;
+        List<Models.User>? accounts;
+        string? filePath = Environment.GetEnvironmentVariable("USERS_DB");// need to download the DotNetEnv Nuget
+
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new InvalidOperationException("USERS_DB environment variable not found.");
+
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+
+        };
+
+        if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
+        {
+            accounts = new List<Models.User>() { user };
+
+        }
+        else
+        {
+            accounts = JsonSerializer.Deserialize<List<Models.User>>(File.ReadAllText(filePath)) ?? new List<Models.User>();
+            accounts.Add(user);
+        }
+
+        jsonString = JsonSerializer.Serialize(accounts, options);
+        File.WriteAllText(filePath!, jsonString);
+        LogService.Log($"[REGISTER] New user {user.GetName()} created.");
+    }
+
+    // Login
+    public static Models.User? Login(Models.User user)
+    {
+
+        Env.Load();
+        string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new InvalidOperationException("USERS_DB environment variable not found.");
+
+        List<Models.User>? usersList = JsonSerializer.Deserialize<List<Models.User>>(File.ReadAllText(filePath));
+        if (usersList.Contains(user))
+        {
+            LogService.Log($"[LOGIN] {user.GetName()} logged in.");
+        }
+        else
+        {
+            // Maybe another Log?
+            LogService.Log($"[LOGIN] {user.GetName()} tried to log in.");
+            user = null;
+        }
+
+        return user;
+    }
+}
