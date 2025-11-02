@@ -1,6 +1,0 @@
-2025-10-31 15:21:57 | User Luis logged in.
-2025-10-31 15:23:43 | User Luis logged in.
-2025-10-31 15:24:03 | User Luis requested hold on book 2
-2025-10-31 15:24:09 | User Luis logged out.
-2025-10-31 15:25:36 | User Luis logged in.
-2025-10-31 15:25:41 | User Luis logged out.

@@ -10,10 +10,10 @@ namespace LibraryApp
 {
     class Program
     {
-        static string usersFile = "users.txt";
-        static string booksFile = "books.txt";
-        static string loansFile = "loans.txt";
-        static string logFile = "log.txt";
+        static string usersFile = "users.json";
+        static string booksFile = "books.json";
+        static string loansFile = "loans.json";
+        static string logFile = "log.json";
 
         static void Main(string[] args)
         {
