@@ -3,12 +3,11 @@ using System.Text.Json.Serialization;
 namespace LibraryApp.Models;
 
 public class User
-{
+{   
     [JsonInclude] private string name;
     [JsonInclude] private string password;// when passing the password to the constructer you must manually Hash the password with the static method Hash
     [JsonInclude] private string role;
     [JsonInclude] private List<LoanedBooks> loans;
-
 
     public User(string n, string pass, string r, List<LoanedBooks> l)
     {
