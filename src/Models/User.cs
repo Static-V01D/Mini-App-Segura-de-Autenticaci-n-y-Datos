@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace LibraryApp.Models;
 
 public class User
-{   
+{
     [JsonInclude] private string name;
     [JsonInclude] private string password;// when passing the password to the constructer you must manually Hash the password with the static method Hash
     [JsonInclude] private string role;
@@ -66,7 +66,7 @@ public class User
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(name, password, role);
+        return HashCode.Combine(name, password);
     }
 
     public bool Equals(User? other)
@@ -77,7 +77,7 @@ public class User
     {
         return (obj is User other) && // Same type?
         (ReferenceEquals(this, other) || // Same references?
-        (this.name == other.name && this.password == other.password && this.role == other.role)); // same properties
+        (this.name == other.name && this.password == other.password)); // same properties
     }
     public static bool operator ==(User account1, User account2)
     {
