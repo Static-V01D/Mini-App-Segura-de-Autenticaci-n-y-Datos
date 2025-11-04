@@ -1,11 +1,144 @@
+using DotNetEnv;
+using LibraryApp.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace LibraryApp.Models;
 
-public class Book
+public class Book : IEquatable<Book>
 {
-    public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string Author { get; set; } = string.Empty;
-    public bool Available { get; set; } = true;
+    [JsonInclude] private string title;
+    [JsonInclude] private readonly int id;
+    [JsonInclude] private string author;
+    [JsonInclude] private bool available;
+
+    public Book(string t, string auth, bool av)
+    {
+        SetAuthor(auth);
+        SetTitle(t);
+        SetAvailable(av);
+        id = GetHashCode();
+    }
+    public Book(string t, string auth) : this(t, auth, true) { }
+    public Book() : this("placeholder", "placeholder") { }
+
+    public void SetTitle(string t)
+    {
+        if (t is null) throw new ArgumentException(null, nameof(t));
+
+        else title = t.ToUpper();
+    }
+    public void SetAuthor(string a)
+    {
+        if (a is null) throw new ArgumentException(null, nameof(a));
+
+        else author = a.ToUpper();
+    }
+    public void SetAvailable(bool a)
+    {
+        available = a;
+    }
+    public string GetTitle() { return title; }
+    public string GetAuthor() { return author; }
+    public int GetId() { return id; }
+    public bool IsAvailable() { return available; }
+
+    public bool Equals(Book? other)
+    {
+        return Equals((object?)other);
+    }
+    public override bool Equals(object? obj)
+    {
+        return obj is Book other &&
+        (ReferenceEquals(this, other) ||
+        title == other.title && author == other.author);
+    }
+    public static bool operator ==(Book book1, Book book2)
+    {
+        return book1 is null ? book2 is null : book1.Equals(book2);
+    }
+    public static bool operator !=(Book book1, Book book2)
+    {
+        return !(book1 == book2);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(title, author);
+    }
+    public override string ToString()
+    {
+        return $"{GetType().Name}: Title= {title}, Author= {author}, Available={available}";
+    }
+
+    public static bool AddBook(Models.Book newBook)
+    {
+        bool status = false;
+        string jsonString;
+        List<Models.Book>? books;
+        string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");// need to download the DotNetEnv Nuget
+
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+        };
+
+        if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
+        {
+            books = new List<Models.Book>() { newBook };
+            status = true;
+        }
+        else
+        {
+            books = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath)) ?? new List<Models.Book>();
+            if (!books.Contains(newBook))
+            {
+                books.Add(newBook);
+                status = true;
+                LogService.Log($"[ADDBOOK] New Book: {newBook.GetTitle()} created.");
+            }
+
+        }
+
+        jsonString = JsonSerializer.Serialize(books, options);
+        File.WriteAllText(filePath!, jsonString);
+        return status;
+    }
+
+    public static Models.Book? GetBook(Models.Book book)
+    {
+        string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+        List<Models.Book>? booksList = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+        if (booksList.Contains(book))
+        {
+            foreach (var item in booksList)
+            {
+                if (item == book)
+                {
+                    book = item;
+                    break;
+                }
+            }
+
+            LogService.Log($"[GETBOOK] Book: {book.GetTitle()} found.");
+        }
+        else
+        {
+            LogService.Log($"[GETBOOK] Book: {book.GetTitle()} not found.");
+            book = null;
+        }
+
+        return book;
+    }
+
 }
+
+
 
 

@@ -30,7 +30,6 @@ public static class AuthService
     // Register new user
     public static bool Register(Models.User user)
     {
-        Env.Load();
         bool status = false;
         string jsonString;
         List<Models.User>? accounts;
@@ -56,20 +55,19 @@ public static class AuthService
             {
                 accounts.Add(user);
                 status = true;
+                LogService.Log($"[REGISTER] New user {user.GetName()} created.");
             }
 
         }
 
         jsonString = JsonSerializer.Serialize(accounts, options);
         File.WriteAllText(filePath!, jsonString);
-        LogService.Log($"[REGISTER] New user {user.GetName()} created.");
         return status;
     }
 
     // Login
     public static Models.User? Login(Models.User user)
     {
-        Env.Load();
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");

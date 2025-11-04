@@ -7,6 +7,7 @@ public class User
     [JsonInclude] private string name;
     [JsonInclude] private string password;// when passing the password to the constructer you must manually Hash the password with the static method Hash
     [JsonInclude] private string role;
+    [JsonInclude] private readonly int id;
     [JsonInclude] private List<LoanedBooks> loans;
 
     public User(string n, string pass, string r, List<LoanedBooks> l)
@@ -15,6 +16,7 @@ public class User
         SetPassword(pass);
         SetRole(r);
         SetLoans(l);
+        id = GetHashCode();
     }
     public User(string n, string pass, string r) : this(n, pass, r, null)
     {
@@ -58,6 +60,7 @@ public class User
     public string GetName() { return name; }// decript value for actual Name?
     public string GetPassword() { return password; }
     public string GetRole() { return role; }
+    public int GetId() { return id; }
     public List<LoanedBooks> GetLoans() { return loans; }
 
     public override string ToString()

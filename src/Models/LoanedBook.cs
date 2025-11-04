@@ -4,13 +4,15 @@ namespace LibraryApp.Models;
 public class LoanedBooks : IEquatable<LoanedBooks>
 {
     [JsonInclude] private string title;
+    [JsonInclude] private string author;
     [JsonInclude] private DateOnly dueDate;
     [JsonInclude] private DateOnly dateLoaned;
 
-    public LoanedBooks() : this("PlaceHolder", DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now)) { }
-    public LoanedBooks(string t, DateOnly due, DateOnly currentDay)
+    public LoanedBooks() : this(new Book("Placeholder", "Placeholder"), DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now)) { }
+    public LoanedBooks(Book book, DateOnly due, DateOnly currentDay)
     {
-        SetTitle(t);
+        SetTitle(book.GetTitle());
+        SetAuthor(book.GetAuthor());
         SetDueDate(due);
         SetDateLoaned(currentDay);
     }
@@ -19,6 +21,12 @@ public class LoanedBooks : IEquatable<LoanedBooks>
         if (t is null) throw new ArgumentException(null, nameof(t));
 
         else title = t.ToUpper();
+    }
+    public void SetAuthor(string a)
+    {
+        if (a is null) throw new ArgumentException(null, nameof(a));
+
+        else author = a.ToUpper();
     }
     public void SetDueDate(DateOnly due)
     {
@@ -35,16 +43,17 @@ public class LoanedBooks : IEquatable<LoanedBooks>
 
     }
     public string GetTitle() { return title; }
+    public string GetAuthor() { return author; }
     public DateOnly GetDueDate() { return dueDate; }
     public DateOnly GetDateLoaned() { return dateLoaned; }
 
     public override string ToString()
     {
-        return $"{GetType().Name}: Title= {title} ,DueDate= {dueDate}";
+        return $"{GetType().Name}: Title= {title}, Author= {author}, DateLoaned= {dateLoaned}, DueDate= {dueDate}";
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(title, dueDate, dateLoaned);
+        return HashCode.Combine(title, author);
     }
 
     public bool Equals(LoanedBooks? other)
@@ -53,9 +62,9 @@ public class LoanedBooks : IEquatable<LoanedBooks>
     }
     public override bool Equals(object? obj)
     {
-        return obj is LoanedBooks other && // Same type?
-        (ReferenceEquals(this, other) || // Same references?
-        title == other.title && dueDate == other.dueDate && dateLoaned == other.dateLoaned); // same properties
+        return obj is LoanedBooks other &&
+        (ReferenceEquals(this, other) ||
+        title == other.title && author == other.author);
     }
     public static bool operator ==(LoanedBooks book1, LoanedBooks book2)
     {
@@ -66,4 +75,3 @@ public class LoanedBooks : IEquatable<LoanedBooks>
         return !(book1 == book2);
     }
 }
-

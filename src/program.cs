@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using DotNetEnv;
 
 namespace LibraryApp
 
@@ -17,6 +18,7 @@ namespace LibraryApp
 
         static void Main(string[] args)
         {
+            Env.Load();
             Console.Title = "Library Book Borrowing System";
             Console.WriteLine("=== Library System ===");
 
