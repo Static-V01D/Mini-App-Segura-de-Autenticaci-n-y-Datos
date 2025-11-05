@@ -22,3 +22,11 @@ D:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\Libra
 D:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.dll
 D:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\refint\LibraryApp.dll
 D:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.pdb
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.csproj.AssemblyReference.cache
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\DotNetEnv.dll
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Sprache.dll
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.csproj.Up2Date
+c:\Users\Luis\Documents\GitHub\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\.env

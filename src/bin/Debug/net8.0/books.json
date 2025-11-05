@@ -1,1 +1,8 @@
-Lord of the Rings,LOTR,Tolkien
+[
+    {
+        "title": "Lord of the Rings",
+        "id": 1,
+        "author": "J.R.R. Tolkien",
+        "available": true
+    }
+]
