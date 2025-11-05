@@ -105,6 +105,7 @@ namespace LibraryApp
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Access granted: Librarian/Admin functions enabled.\n");
+                    LibrarianMenu(loggedIn);
                 }
                 else
                 {
@@ -119,7 +120,7 @@ namespace LibraryApp
             }
             // --- MENUS ---
 
-           /* static void LibrarianMenu(User user)
+            static void LibrarianMenu(User user)
             {
                 while (true)
                 {
@@ -130,10 +131,10 @@ namespace LibraryApp
                     {
                         case "1": ViewBooks(); break;
                         case "2": AddBook(); break;
-                        case "3": UpdateBook(); break;
-                        case "4": DeleteBook(); break;
-                        case "5": ManageLoans(user); break;
-                        case "0": Log($"User {user.Username} logged out."); return;
+                       // case "3": UpdateBook(); break;
+                       // case "4": DeleteBook(); break;
+                       // case "5": ManageLoans(user); break;
+                       // case "0": Log($"User {user.Username} logged out."); return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
@@ -149,65 +150,35 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case "1": ViewBooks(); break;
-                        case "2": RequestHold(user); break;
-                        case "0": Log($"User {user.Username} logged out."); return;
+                       // case "2": RequestHold(user); break;
+                     // case "0": Log($"User {user.Username} logged out."); return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
-            }*/
+            }
 
             // --- BOOK MANAGEMENT ---
 
             static void ViewBooks()
             {
-                Book.GetBook(new Book("Lord of the Rings","J.R.R. Tolkien", true));
-            }/*
+                Console.WriteLine("\n=== Books ===");
+                Console.WriteLine(BookService.GetBook(new Book("Lord of the Rings", "J.R.R. Tolkien", true)));
+            }
 
             static void AddBook()
             {
-                Console.Write("Book ID: ");
-                string id = Console.ReadLine() ?? "";
-                Console.Write("Title: ");
-                string title = Console.ReadLine() ?? "";
-                Console.Write("Author: ");
-                string author = Console.ReadLine() ?? "";
-
-                File.AppendAllText(booksFile, $"{id},{title},{author}\n");
-                Log($"Added book '{title}' by {author}");
+                BookService.AddBook(new Book("One Piece","Eiichiro Oda", true));
             }
 
             static void UpdateBook()
             {
-                var books = File.ReadAllLines(booksFile).ToList();
-                Console.Write("Enter book ID to update: ");
-                string id = Console.ReadLine() ?? "";
-                int index = books.FindIndex(b => b.StartsWith(id + ","));
-                if (index == -1)
-                {
-                    Console.WriteLine("Book not found.");
-                    return;
-                }
-
-                Console.Write("New title: ");
-                string title = Console.ReadLine() ?? "";
-                Console.Write("New author: ");
-                string author = Console.ReadLine() ?? "";
-                books[index] = $"{id},{title},{author}";
-                File.WriteAllLines(booksFile, books);
-                Log($"Updated book {id}");
+              
             }
 
             static void DeleteBook()
             {
-                var books = File.ReadAllLines(booksFile).ToList();
-                Console.Write("Enter book ID to delete: ");
-                string id = Console.ReadLine() ?? "";
-                int countBefore = books.Count;
-                books = books.Where(b => !b.StartsWith(id + ",")).ToList();
-                File.WriteAllLines(booksFile, books);
-                if (books.Count < countBefore) Log($"Deleted book {id}");
-                else Console.WriteLine("Book not found.");
-            }
+               
+            }/*
 
             // --- LOAN MANAGEMENT ---
 

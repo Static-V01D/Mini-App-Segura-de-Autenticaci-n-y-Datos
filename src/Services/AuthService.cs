@@ -69,12 +69,8 @@ public static class AuthService
     // Login
     public static Models.User? Login(Models.User user)
     {
-<<<<<<< Updated upstream
-
         Env.Load();
-=======
-            Env.Load();
->>>>>>> Stashed changes
+          
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");

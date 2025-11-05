@@ -1,8 +1,14 @@
 [
-    {
-        "title": "Lord of the Rings",
-        "id": 1,
-        "author": "J.R.R. Tolkien",
-        "available": true
-    }
+  {
+    "title": "LORD OF THE RINGS",
+    "id": 2015153194,
+    "author": "J.R.R. TOLKIEN",
+    "available": true
+  },
+  {
+    "title": "ONE PIECE",
+    "id": -1677397484,
+    "author": "EIICHIRO ODA",
+    "available": true
+  }
 ]

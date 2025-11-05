@@ -3,7 +3,14 @@
     "name": "Luis",
     "password": "148DE9C5A7A44D19E56CD9AE1A554BF67847AFB0C58F6E12FA29AC7DDFCA9940",
     "role": "member",
-    "id": 418123388,
+    "id": 1443257690,
+    "loans": []
+  },
+  {
+    "name": "THVpcw==",
+    "password": "148DE9C5A7A44D19E56CD9AE1A554BF67847AFB0C58F6E12FA29AC7DDFCA9940",
+    "role": "librarian",
+    "id": -408910730,
     "loans": []
   }
 ]
