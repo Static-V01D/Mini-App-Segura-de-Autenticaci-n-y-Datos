@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using DotNetEnv;
+using LibraryApp.Models;
 
 
 namespace LibraryApp.Services;
@@ -17,7 +18,6 @@ public static class AuthService
         return Convert.ToHexString(hash); // uppercase hex string
     }
 
-    // check if the user is authorized to use the service
     public static bool AuthorizedRoles(string userRole, params string[] allowedRoles)
     {
         for (int i = 0; i < allowedRoles.Length - 1; i++)
@@ -30,6 +30,7 @@ public static class AuthService
     // Register new user
     public static bool Register(Models.User user)
     {
+        Env.Load();
         bool status = false;
         string jsonString;
         List<Models.User>? accounts;
@@ -55,19 +56,21 @@ public static class AuthService
             {
                 accounts.Add(user);
                 status = true;
-                LogService.Log($"[REGISTER] New user {user.GetName()} created.");
             }
 
         }
 
         jsonString = JsonSerializer.Serialize(accounts, options);
         File.WriteAllText(filePath!, jsonString);
+        LogService.Log($"[REGISTER] New user {user.GetId()} created.");
         return status;
     }
 
     // Login
     public static Models.User? Login(Models.User user)
     {
+
+        Env.Load();
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");
@@ -83,13 +86,17 @@ public static class AuthService
                     user = account;
                     break;
                 }
+
+
             }
-            LogService.Log($"[LOGIN] {user.GetName()} logged in.");
+
+            LogService.Log($"[LOGIN] {user.GetId()} logged in.");
+
         }
         else
         {
             // Maybe another Log?
-            LogService.Log($"[LOGIN] {user.GetName()} tried to log in.");
+            LogService.Log($"[LOGIN] {user.GetId()} tried to log in.");
             user = null;
         }
 

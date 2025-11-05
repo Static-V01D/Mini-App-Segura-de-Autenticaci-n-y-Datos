@@ -1,4 +1,5 @@
-using System.Security.Principal;
+
+using System.Text;
 using System.Text.Json.Serialization;
 namespace LibraryApp.Models;
 
@@ -34,9 +35,7 @@ public class User
     public void SetName(string n)
     {
         if (n is null) throw new ArgumentNullException(nameof(n));
-
-        //encript name? for anti SQLInyection
-        else name = n;
+        else name = Convert.ToBase64String(Encoding.UTF8.GetBytes(n));
 
     }
     public void SetRole(string r)
@@ -57,7 +56,14 @@ public class User
         loans = l ?? new List<LoanedBooks>();
     }
 
-    public string GetName() { return name; }// decript value for actual Name?
+    public string GetName()
+    {
+        return Encoding.UTF8.GetString(Convert.FromBase64String(name));
+    }
+    public string GetBase64Name()
+    {
+        return name;
+    }
     public string GetPassword() { return password; }
     public string GetRole() { return role; }
     public int GetId() { return id; }
@@ -65,7 +71,7 @@ public class User
 
     public override string ToString()
     {
-        return $"{GetType().Name}: User= {name}, role= {role}, password= {password},\n    {string.Join("\n    ", loans)}";
+        return $"{GetType().Name}: Name= {GetName()}, role= {role}, password= {password},\n    {string.Join("\n    ", loans)}";
     }
     public override int GetHashCode()
     {

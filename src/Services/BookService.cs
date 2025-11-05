@@ -1,48 +1,76 @@
 using LibraryApp.Models;
-
-
+using System.Text.Json.Serialization;
+using DotNetEnv;
+using LibraryApp.Services;
+using System.Text.Json;
 namespace LibraryApp.Services
 {
     public static class BookService
     {
-        private static readonly string BooksPath = "data/books.json";
-
-        public static void ListBooks(List<Book> books)
+        public static bool AddBook(Models.Book newBook)
         {
-            Console.WriteLine("\n📖 Books Available:");
-            foreach (var book in books)
-                Console.WriteLine($"[{book.Id}] {book.Title} by {book.Author} {(book.Available ? "(Available)" : "(Checked out)")}");
-        }
+            bool status = false;
+            string jsonString;
+            List<Models.Book>? books;
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");// need to download the DotNetEnv Nuget
 
-        public static void AddBook(List<Book> books)
-        {
-            Console.Write("Title: ");
-            string title = Console.ReadLine()?.Trim() ?? "";
-            Console.Write("Author: ");
-            string author = Console.ReadLine()?.Trim() ?? "";
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
 
-            int id = books.Any() ? books.Max(b => b.Id) + 1 : 1;
-            books.Add(new Book { Id = id, Title = title, Author = author });
-            DataStore.SaveList(BooksPath, books);
-
-            LogService.Log($"[BOOK ADD] '{title}' added by librarian.");
-        }
-
-        public static void DeleteBook(List<Book> books)
-        {
-            Console.Write("Book ID to delete: ");
-            if (!int.TryParse(Console.ReadLine(), out int id)) return;
-
-            var book = books.FirstOrDefault(b => b.Id == id);
-            if (book == null)
+            var options = new JsonSerializerOptions
             {
-                Console.WriteLine("Book not found.");
-                return;
+                WriteIndented = true,
+            };
+
+            if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
+            {
+                books = new List<Models.Book>() { newBook };
+                status = true;
+            }
+            else
+            {
+                books = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath)) ?? new List<Models.Book>();
+                if (!books.Contains(newBook))
+                {
+                    books.Add(newBook);
+                    status = true;
+                    LogService.Log($"[ADDBOOK] New Book: {newBook.GetTitle()} created.");
+                }
+
             }
 
-            books.Remove(book);
-            DataStore.SaveList(BooksPath, books);
-            LogService.Log($"[BOOK DELETE] '{book.Title}' removed.");
+            jsonString = JsonSerializer.Serialize(books, options);
+            File.WriteAllText(filePath!, jsonString);
+            return status;
+        }
+
+        public static Models.Book? GetBook(Models.Book book)
+        {
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+            List<Models.Book>? booksList = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+            if (booksList is not null && booksList.Contains(book))
+            {
+                foreach (var item in booksList)
+                {
+                    if (item == book)
+                    {
+                        book = item;
+                        break;
+                    }
+                }
+
+                LogService.Log($"[GETBOOK] Book: {book.GetTitle()} found.");
+            }
+            else
+            {
+                LogService.Log($"[GETBOOK] Book: {book.GetTitle()} not found.");
+                book = null;
+            }
+
+            return book;
         }
     }
 }
