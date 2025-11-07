@@ -72,5 +72,77 @@ namespace LibraryApp.Services
 
             return book;
         }
+
+        public static List<Models.Book>? GetAllBooks()
+        {
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+            return JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+        }
+
+        public static bool RemoveBook(Models.Book book)
+        {
+            bool status = false;
+            List<Models.Book>? books = new List<Models.Book>();
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+
+            if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
+            {
+                status = false;
+            }
+            else
+            {
+                books = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath)) ?? new List<Models.Book>();
+                if (books.Contains(book))
+                {
+                    books.Remove(book);
+                    status = true;
+                    LogService.Log($"[REMOVEBOOK] Book: {book.GetTitle()} removed.");
+                }
+            }
+
+            string jsonString = JsonSerializer.Serialize(books, options);
+            File.WriteAllText(filePath!, jsonString);
+            return status;
+        }
+        public static bool UpdateBook(Models.Book originalBook, Models.Book updatedBook)
+        {
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+            List<Models.Book>? booksList = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+
+            if (booksList is not null && booksList.Contains(originalBook))
+            {
+                int index = booksList.IndexOf(originalBook);
+                booksList.RemoveAt(index);
+                booksList.Insert(index, updatedBook);
+                LogService.Log($"[UPDATEBOOK] Book: {originalBook} updated to {updatedBook}");
+            }
+            else
+            {
+                LogService.Log($"[UPDATEBOOK] Book: {originalBook.GetTitle()} not found.");
+                return false;
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+            string jsonString = JsonSerializer.Serialize(booksList, options);
+            File.WriteAllText(filePath!, jsonString);
+            return true;
+        }
     }
 }

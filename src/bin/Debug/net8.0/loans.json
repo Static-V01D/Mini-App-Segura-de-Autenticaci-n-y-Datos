@@ -1,2 +1,56 @@
-Luis,Lord of the Rings,2025-11-01,Returned 
-Luis,Lord of the Rings,2025-11-01,Returned
+[
+  {
+    "LoanId": 1,
+    "BookId": 0,
+    "MemberId": 0,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "2025-12-12",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  },
+  {
+    "LoanId": 1,
+    "BookId": 1,
+    "MemberId": 1,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "0001-01-01",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  },
+  {
+    "LoanId": 1,
+    "BookId": 6,
+    "MemberId": 1,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "0001-01-01",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  },
+  {
+    "LoanId": 1,
+    "BookId": 6,
+    "MemberId": 1,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "0001-01-01",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  },
+  {
+    "LoanId": 1,
+    "BookId": 4,
+    "MemberId": 1,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "0001-01-01",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  },
+  {
+    "LoanId": 1,
+    "BookId": 6,
+    "MemberId": 1,
+    "CheckoutDate": "0001-01-01",
+    "DueDate": "0001-01-01",
+    "ReturnDate": null,
+    "Status": "checked_out"
+  }
+]

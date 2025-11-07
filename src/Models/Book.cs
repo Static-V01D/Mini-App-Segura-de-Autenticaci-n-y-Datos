@@ -8,9 +8,9 @@ namespace LibraryApp.Models;
 public class Book : IEquatable<Book>
 {
     [JsonInclude] private string title;
-    [JsonInclude] private readonly int id;
+    [JsonInclude] private readonly int id; 
     [JsonInclude] private string author;
-    [JsonInclude] private bool available;
+    [JsonInclude] private bool available; 
 
     public Book(string t, string auth, bool av)
     {
