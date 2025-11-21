@@ -1,55 +1,10 @@
 [
   {
     "LoanId": 1,
-    "BookId": 0,
-    "MemberId": 0,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "2025-12-12",
-    "ReturnDate": null,
-    "Status": "checked_out"
-  },
-  {
-    "LoanId": 1,
-    "BookId": 1,
-    "MemberId": 1,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "0001-01-01",
-    "ReturnDate": null,
-    "Status": "checked_out"
-  },
-  {
-    "LoanId": 1,
-    "BookId": 6,
-    "MemberId": 1,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "0001-01-01",
-    "ReturnDate": null,
-    "Status": "checked_out"
-  },
-  {
-    "LoanId": 1,
-    "BookId": 6,
-    "MemberId": 1,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "0001-01-01",
-    "ReturnDate": null,
-    "Status": "checked_out"
-  },
-  {
-    "LoanId": 1,
-    "BookId": 4,
-    "MemberId": 1,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "0001-01-01",
-    "ReturnDate": null,
-    "Status": "checked_out"
-  },
-  {
-    "LoanId": 1,
-    "BookId": 6,
-    "MemberId": 1,
-    "CheckoutDate": "0001-01-01",
-    "DueDate": "0001-01-01",
+    "BookId": 23,
+    "MemberId": 3,
+    "CheckoutDate": "2025-11-16",
+    "DueDate": "2026-05-12",
     "ReturnDate": null,
     "Status": "checked_out"
   }

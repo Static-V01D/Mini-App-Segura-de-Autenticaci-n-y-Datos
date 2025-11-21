@@ -9,7 +9,7 @@ public static class ValidatorService
             return false;
 
         // Username can only contain letters, numbers, and underscores
-        return username.All(c => char.IsLetterOrDigit(c) || c == '_');
+        return username.All(c => char.IsLetterOrDigit(c) || c == ' ');
     }
 
     public static bool ValidatePassword(string password)

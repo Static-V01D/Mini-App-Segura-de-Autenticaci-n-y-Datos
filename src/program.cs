@@ -134,10 +134,10 @@ namespace LibraryApp
                     {
                         case "1": ViewBooks(); break;
                         case "2": AddBook(); break;
-                         case "3": UpdateBook(); break;
-                         case "4": DeleteBook(); break;
-                         case "5": ManageLoans(user); break;
-                         case "0": Log($"User {user} logged out."); return;
+                        case "3": UpdateBook(); break;
+                        case "4": DeleteBook(); break;
+                        case "5": ManageLoans(user); break;
+                        case "0": Log($"User {user} logged out."); return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
@@ -164,7 +164,7 @@ namespace LibraryApp
 
             static void ViewBooks()
             {
-                Console.WriteLine("\n=== Books ===");                
+                Console.WriteLine("\n=== Books ===");
                 var books = BookService.GetAllBooks();
                 if (books is not null)
                 {
@@ -199,7 +199,7 @@ namespace LibraryApp
 
                 // BookService.CheckoutBook(new Book(title, author, true));
             }
-            
+
 
             // --- LOAN MANAGEMENT ---
 
@@ -207,14 +207,15 @@ namespace LibraryApp
             {
                 while (true)
                 {
-                    Console.WriteLine("\n1. View Loans\n2. Check Out\n3. Check In\n0. Back");
+                    Console.WriteLine("\n1. View Loans\n2. Check Out\n3. Check In\n4. Update Loan\n0. Back");
                     Console.Write("Choose: ");
                     string choice = Console.ReadLine() ?? "";
                     switch (choice)
                     {
                         case "1": ViewLoans(); break;
-                      //  case "2": AddLoan(); break;
+                        case "2": AddLoan(); break;
                         case "3": CheckIn(); break;
+                        case "4": UpdateLoan(); break;                       
                         case "0": return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
@@ -237,50 +238,113 @@ namespace LibraryApp
                     Console.WriteLine($"LoanId: {loan.LoanId}, BookId: {loan.BookId}, MemberId: {loan.MemberId}, Status: {loan.Status}, DueDate: {loan.DueDate}, CheckoutDate: {loan.CheckoutDate}");
                 }
             }
-            
-           /* static void AddLoan() //Hacer false available en book, Hacer que el LoanId sea auto incrementable
+
+            static void AddLoan() //Hacer false available en book, Hacer que el LoanId sea auto incrementable
             {
+                Env.Load();
+
                 Console.Write("Book ID to check out: ");
                 int bookId = int.Parse(Console.ReadLine() ?? "0");
-                Console.Write("Enter Due Date (yyyy-MM-dd): ");
-                Loan.DueDate = DateOnly.Parse(Console.ReadLine() ?? DateTime.Now.ToString("yyyy-MM-dd"));
-                Console.WriteLine("Due date is " + Loan.DueDate);
 
-                var today = DateOnly.FromDateTime(DateTime.Now);
-                Loan.CheckoutDate = today;
-                Console.WriteLine("Checkout date is " + today);
+                Console.Write("Member ID: ");
+                int memberId = int.Parse(Console.ReadLine() ?? "0");
 
-                if (UpdateLoan(Loan))
-                    Console.WriteLine("Due date updated successfully.");
-                else
-                    Console.WriteLine("Failed to update due date.");
-            }*/
+                // Create new loan
+                var newLoan = new Loan
+                {
+                    BookId = bookId,
+                    MemberId = memberId,
+                    Status = "checked_out"
+                };
 
-            static void CheckIn()//Hacer true available en book
-            {
+                // Add the loan
+                LoanService.AddLoan(newLoan);                
 
-                Console.Write("Book ID to check in: ");
-                int bookId = int.Parse(Console.ReadLine() ?? "0");
-                LoanService.RemoveLoan(new Loan { LoanId = 1, BookId = bookId, MemberId = 1 });
+                // Update book availability
+                string? booksPath = Environment.GetEnvironmentVariable("BOOKS_DB");
+                if (string.IsNullOrWhiteSpace(booksPath))
+                    throw new InvalidOperationException("BOOKS_DB environment variable not found.");
 
+                var books = JsonSerializer.Deserialize<List<Book>>(File.ReadAllText(booksPath)) ?? new();
+                var book = books.FirstOrDefault(b => b.GetId() == bookId);
+
+                if (book != null)
+                {
+                    var updatedBook = new Book(book.GetTitle(), book.GetAuthor(), false); // false = not available
+                    BookService.UpdateBook(book, updatedBook);
+                    LogService.Log($"[CHECKOUT] Book ID {bookId} marked as not available.");
+                }
+
+                Console.WriteLine($"Book ID {bookId} checked out successfully!");
+                Console.WriteLine($"Due Date: {newLoan.DueDate:dd-MM-yyyy}");
+                Console.WriteLine($"Checkout Date: {newLoan.CheckoutDate:dd-MM-yyyy}");
+                Console.WriteLine($"Loan ID: {newLoan.LoanId}" + $" Member ID: {newLoan.MemberId}" + $" Book ID: {newLoan.BookId}");                    
             }
 
-            static void UpdateLoan() //Solo cambiar due date
-            {
-                Console.Write("Enter Loan ID to update: ");
-                int loanId = int.Parse(Console.ReadLine() ?? "0");
-                LoanService.UpdateLoan(new Loan { LoanId = loanId, BookId = 1, MemberId = 1 });
-            }
-            // --- LOGGING ---
 
-            static void Log(string message)
-            {
-                string entry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {message}";
+        }
 
+        static void CheckIn()
+        {
+            Env.Load();
+
+            Console.Write("Book ID to check in: ");
+            int bookId = int.Parse(Console.ReadLine() ?? "0");
+
+            // Remove the loan referencing this Book
+            bool removed = LoanService.RemoveLoan(new Loan { BookId = bookId });
+
+            if (!removed)
+            {
+                Console.WriteLine($"Book ID {bookId} not found in loans.");
+                return;
             }
+
+            string? booksPath = Environment.GetEnvironmentVariable("BOOKS_DB");
+            if (string.IsNullOrWhiteSpace(booksPath))
+                throw new InvalidOperationException("BOOKS_DB env var not found.");
+
+            var books = JsonSerializer.Deserialize<List<Book>>(File.ReadAllText(booksPath)) ?? new();
+            var book = books.FirstOrDefault(b => b.GetId() == bookId);
+
+            if (book != null)
+            {
+                var updatedBook = new Book(book.GetTitle(), book.GetAuthor(), true);
+                BookService.UpdateBook(book, updatedBook);
+                LogService.Log($"[CHECKIN] Book ID {bookId} marked as available.");
+            }
+
+            Console.WriteLine($"Book ID {bookId} checked in successfully!");
         }
 
 
+        static void UpdateLoan() //Solo cambiar due date
+        {
+            Console.Write("Enter Loan ID: ");
+            int loanId = int.Parse(Console.ReadLine() ?? "0");
+
+            Console.Write("Enter new due date (MM/DD/YYYY): ");
+            DateOnly newDate = DateOnly.Parse(Console.ReadLine() ?? "");
+
+            if (LoanService.UpdateLoan(loanId, newDate))
+            {
+                Console.WriteLine("Due date updated successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Loan not found.");
+            }
+        }
+        // --- LOGGING ---
+
+        static void Log(string message)
+        {
+            string entry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {message}";
+
+        }
     }
+
+
 }
+
 

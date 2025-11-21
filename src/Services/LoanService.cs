@@ -8,111 +8,103 @@ namespace LibraryApp.Services
 {
     public static class LoanService
     {        
-        public static bool CheckOut(Models.Loan newLoan)
+        public static bool AddLoan(Models.Loan newLoan)
         {
             bool status = false;
             string jsonString;
             List<Models.Loan>? loans;
-            string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");// need to download the DotNetEnv Nuget
+            string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
+
             Env.Load();
 
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("LOANS_DB environment variable not found.");
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
+            var options = new JsonSerializerOptions { WriteIndented = true };
 
+            // Set checkout date HERE
+            newLoan.CheckoutDate = DateOnly.FromDateTime(DateTime.Now);
+
+            // Ask user for due date HERE
+            Console.Write("Enter due date (dd-MM-yyyy or dd/MM/yyyy): ");
+            string input = Console.ReadLine()!;
+
+            newLoan.DueDate = DateOnly.ParseExact(
+                input,
+                new[] { "dd-MM-yyyy", "dd/MM/yyyy" },
+                null
+            );
+
+            // Load / create list
             if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
             {
-                loans = new List<Models.Loan>() { newLoan };
+                newLoan.LoanId = 1;
+                loans = new() { newLoan };
                 status = true;
             }
             else
             {
-                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new List<Models.Loan>();
-                if (!loans.Contains(newLoan))
-                {
-                    loans.Add(newLoan);
-                    status = true;
-                    LogService.Log($"[ADDLOAN] New Loan: {newLoan.LoanId} created.");
-                }
+                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new();
 
+                newLoan.LoanId = loans.Any() ? loans.Max(l => l.LoanId) + 1 : 1;
+
+                loans.Add(newLoan);
+                status = true;
             }
 
+            // Save JSON
             jsonString = JsonSerializer.Serialize(loans, options);
             File.WriteAllText(filePath!, jsonString);
+
             return status;
         }
 
-        public static bool UpdateLoan(Models.Loan updatedLoan)
-        {
-            bool status = false;
-            string jsonString;
-            List<Models.Loan>? loans;
-            string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
 
+        public static bool UpdateLoan(int loanId, DateOnly newDueDate)
+        {
+            string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("LOANS_DB environment variable not found.");
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
+            var loans = JsonSerializer.Deserialize<List<Loan>>(File.ReadAllText(filePath)) ?? new();
 
-            if (File.Exists(filePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
-            {
-                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new List<Models.Loan>();
-                for (int i = 0; i < loans.Count; i++)
-                {
-                    if (loans[i].LoanId == updatedLoan.LoanId)
-                    {
-                        loans[i] = updatedLoan;
-                        status = true;
-                        LogService.Log($"[UPDATELOAN] Loan: {updatedLoan.LoanId} updated.");
-                        break;
-                    }
-                }
+            var loan = loans.FirstOrDefault(l => l.LoanId == loanId);
+            if (loan == null)
+                return false;
 
-                jsonString = JsonSerializer.Serialize(loans, options);
-                File.WriteAllText(filePath!, jsonString);
-            }
+            // Only update due date
+            loan.DueDate = newDueDate;
 
-            return status;
+            File.WriteAllText(
+                filePath,
+                JsonSerializer.Serialize(loans, new JsonSerializerOptions { WriteIndented = true })
+            );
+
+            return true;
         }
 
-        public static bool RemoveLoan(Models.Loan loanToRemove)
+        public static bool RemoveLoan(Loan loanToRemove)
         {
-            bool status = false;
-            string jsonString;
-            List<Models.Loan>? loans;
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
-
             if (string.IsNullOrWhiteSpace(filePath))
-                throw new InvalidOperationException("LOANS_DB environment variable not found.");
+                throw new InvalidOperationException("LOANS_DB env var not found.");
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
+            var loans = JsonSerializer.Deserialize<List<Loan>>(File.ReadAllText(filePath)) ?? new();
 
-            if (File.Exists(filePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
-            {
-                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new List<Models.Loan>();
-                if (loans.Contains(loanToRemove))
-                {
-                    loans.Remove(loanToRemove);
-                    status = true;
-                    LogService.Log($"[REMOVELOAN] Loan: {loanToRemove.LoanId} removed.");
-                }
+            // Match by BookId (or LoanId)
+            var existing = loans.FirstOrDefault(l => l.BookId == loanToRemove.BookId);
 
-                jsonString = JsonSerializer.Serialize(loans, options);
-                File.WriteAllText(filePath!, jsonString);
-            }
+            if (existing == null)
+                return false;
 
-            return status;
+            loans.Remove(existing);
+
+            File.WriteAllText(filePath, JsonSerializer.Serialize(loans, new JsonSerializerOptions { WriteIndented = true }));
+
+            LogService.Log($"[REMOVELOAN] Loan {existing.LoanId} removed.");
+            return true;
         }
+
 
         public static Models.Loan? GetLoan(Models.Loan loan)
         {
@@ -137,26 +129,8 @@ namespace LibraryApp.Services
 
             LogService.Log($"[GETLOAN] Loan: {loan.LoanId} not found.");
             return null;
-        }       
-       public static void SetDueDate(Models.Loan dueDate, Models.Loan checkoutDate)
-       {
-           Console.Write("Enter Loan ID to set due date: ");
-           int loanId = int.Parse(Console.ReadLine() ?? "0");
-           Console.Write("Enter Due Date (yyyy-MM-dd): ");
-           dueDate.DueDate = DateOnly.Parse(Console.ReadLine() ?? DateTime.Now.ToString()); // Hacer que solo sea Dia/mes/año
-            Console.WriteLine("Due date is " + dueDate.DueDate);
-            var today =  DateOnly.FromDateTime(DateTime.Now);
-            checkoutDate.CheckoutDate = today;
-           Console.WriteLine("Checkout date is " + today);
-           
-            if (UpdateLoan(dueDate))
-            {
-                Console.WriteLine("Due date updated successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Failed to update due date.");
-            }
         }
+
+       
     }
 }
