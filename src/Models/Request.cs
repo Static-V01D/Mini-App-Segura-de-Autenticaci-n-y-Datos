@@ -1,9 +1,12 @@
 namespace LibraryApp.Models;
+using System.Text.Json.Serialization;
 
 public class Request : IEquatable<Request>
 {
-    private Models.User user;
-    private Models.Book book;
+    
+    [JsonInclude] private Models.User user;
+    [JsonInclude] private Models.Book book;
+    
     public Request(Models.User user, Models.Book book)
     {
         SetBook(book);

@@ -1,3 +1,4 @@
+using DotNetEnv;
 using LibraryApp.Models;
 using System.Text.Json;
 
@@ -7,6 +8,8 @@ public static class RequestService
 {
     public static bool AddRequest(Models.Request newRequest)
     {
+        Env.Load();
+
         bool status = false;
         string jsonString;
         List<Models.Request>? requests;
@@ -41,17 +44,20 @@ public static class RequestService
         File.WriteAllText(filePath!, jsonString);
         return status;
     }
-    public static List<Models.Request>? GetAllrequests()
+    public static List<Models.Request>? GetAllRequests()
     {
+        Env.Load();
         string? filePath = Environment.GetEnvironmentVariable("REQUEST_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("REQUEST_DB environment variable not found.");
 
         return JsonSerializer.Deserialize<List<Models.Request>>(File.ReadAllText(filePath));
     }
-    public static List<Models.Request>? GetRequests(Models.User user)
+    public static List<Models.Request>? GetRequest(Models.User user)
     {
-        List<Models.Request>? requestsList = GetAllrequests();
+         Env.Load();
+
+        List<Models.Request>? requestsList = GetAllRequests();
         List<Models.Request>? userRequests = new List<Request>();
         if (requestsList is not null)
         {
@@ -82,6 +88,8 @@ public static class RequestService
     }
     public static bool RemoveRequest(Models.Request request)
     {
+         Env.Load();
+
         bool status = false;
         List<Models.Request>? requests = new List<Models.Request>();
         string? filePath = Environment.GetEnvironmentVariable("REQUEST_DB");
@@ -115,6 +123,8 @@ public static class RequestService
     }
     public static bool UpdateRequest(Models.Request originalRequest, Models.Request updatedRequest)
     {
+         Env.Load();
+         
         string? filePath = Environment.GetEnvironmentVariable("REQUEST_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("REQUEST_DB environment variable not found.");

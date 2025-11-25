@@ -11,54 +11,57 @@ namespace LibraryApp.Services
         public static bool AddLoan(Models.Loan newLoan)
         {
             bool status = false;
-            string jsonString;
-            List<Models.Loan>? loans;
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
-
-            Env.Load();
-
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("LOANS_DB environment variable not found.");
 
+            Env.Load();
             var options = new JsonSerializerOptions { WriteIndented = true };
 
-            // Set checkout date HERE
-            newLoan.CheckoutDate = DateOnly.FromDateTime(DateTime.Now);
-
-            // Ask user for due date HERE
-            Console.Write("Enter due date (dd-MM-yyyy or dd/MM/yyyy): ");
-            string input = Console.ReadLine()!;
-
-            newLoan.DueDate = DateOnly.ParseExact(
-                input,
-                new[] { "dd-MM-yyyy", "dd/MM/yyyy" },
-                null
-            );
-
             // Load / create list
+            List<Models.Loan> loans;
             if (!File.Exists(filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(filePath)))
             {
-                newLoan.LoanId = 1;
-                loans = new() { newLoan };
-                status = true;
+                loans = new List<Models.Loan>();
             }
             else
             {
-                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new();
-
-                newLoan.LoanId = loans.Any() ? loans.Max(l => l.LoanId) + 1 : 1;
-
-                loans.Add(newLoan);
-                status = true;
+                loans = JsonSerializer.Deserialize<List<Models.Loan>>(File.ReadAllText(filePath)) ?? new List<Models.Loan>();
             }
 
+            // Check if the book is already loaned
+            if (loans.Any(l => l.BookId == newLoan.BookId && l.Status == "checked_out"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Book ID {newLoan.BookId} is already checked out!");
+                Console.ResetColor();
+                return false; // Stop adding
+            }
+
+            // Set LoanId
+            newLoan.LoanId = loans.Any() ? loans.Max(l => l.LoanId) + 1 : 1;
+
+            // Set checkout date
+            newLoan.CheckoutDate = DateOnly.FromDateTime(DateTime.Now);
+
+            // Ask user for due date
+            Console.Write("Enter due date (dd-MM-yyyy or dd/MM/yyyy): ");
+            string input = Console.ReadLine()!;
+            newLoan.DueDate = DateOnly.ParseExact(input, new[] { "dd-MM-yyyy", "dd/MM/yyyy" }, null);
+
+            // Add new loan
+            loans.Add(newLoan);
+            status = true;
+
             // Save JSON
-            jsonString = JsonSerializer.Serialize(loans, options);
-            File.WriteAllText(filePath!, jsonString);
+            File.WriteAllText(filePath, JsonSerializer.Serialize(loans, options));
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Book ID {newLoan.BookId} checked out successfully!");
+            Console.ResetColor();
 
             return status;
         }
-
 
         public static bool UpdateLoan(int loanId, DateOnly newDueDate)
         {

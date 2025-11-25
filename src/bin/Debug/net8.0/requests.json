@@ -1,0 +1,32 @@
+[
+  {
+    "user": {
+      "name": "cG9raQ==",
+      "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
+      "role": "member",
+      "id": -1627958234,
+      "loans": []
+    },
+    "book": {
+      "title": "LORD OF THE RINGS",
+      "id": 1675594137,
+      "author": "J.R.R. TOLKIEN",
+      "available": true
+    }
+  },
+  {
+    "user": {
+      "name": "TG9saQ==",
+      "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
+      "role": "member",
+      "id": -1627958234,
+      "loans": []
+    },
+    "book": {
+      "title": "LORD OF THE RINGS",
+      "id": 1815556705,
+      "author": "POPOPOPOOPO",
+      "available": true
+    }
+  }
+]

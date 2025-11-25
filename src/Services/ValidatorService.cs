@@ -1,27 +1,64 @@
+using System.Text.RegularExpressions;
+
 namespace LibraryApp.Services;
 
 public static class ValidatorService
 {
-    public static bool ValidateUsername(string username)
+    // --- Regex patterns ---
+    private static readonly Regex UsernamePattern = new(@"^[a-zA-Z0-9_.-]{1,50}$", RegexOptions.Compiled);
+    private static readonly Regex PasswordPattern = new(@"^[a-zA-Z0-9_.-]{12,30}$", RegexOptions.Compiled);
+    private static readonly Regex RolePattern = new(@"^[a-zA-Z]{1,20}$", RegexOptions.Compiled);
+
+    // --- Check if username is valid ---
+    public static bool IsValidUsername(string username)
     {
-        // Username must be between 3 and 20 characters
-        if (string.IsNullOrWhiteSpace(username) || username.Length < 3 || username.Length > 20)
+        if (string.IsNullOrWhiteSpace(username))
             return false;
 
-        // Username can only contain letters, numbers, and underscores
-        return username.All(c => char.IsLetterOrDigit(c) || c == ' ');
+        return UsernamePattern.IsMatch(username);
     }
 
-    public static bool ValidatePassword(string password)
+    // --- Check if password is valid ---
+    public static bool IsValidPassword(string password)
     {
-        if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
+        if (string.IsNullOrWhiteSpace(password))
             return false;
 
-        bool hasUpperCase = password.Any(char.IsUpper);
-        bool hasLowerCase = password.Any(char.IsLower);
-        bool hasDigit = password.Any(char.IsDigit);
-        bool hasSpecialChar = password.Any(c => !char.IsLetterOrDigit(c));
-
-        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+        return PasswordPattern.IsMatch(password);
     }
+
+    // --- Check if role is valid ---
+    public static bool IsValidRole(string? role)
+    {
+        if (string.IsNullOrWhiteSpace(role))
+            return false;
+
+        return RolePattern.IsMatch(role);
+    }
+
+    // Optional: interactive input method (like before)
+    public static string SafeStringInput()
+    {
+        while (true)
+        {           
+            string? input = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine("Input cannot be empty.");
+                continue;
+            }
+
+            if (!UsernamePattern.IsMatch(input))
+            {
+                Console.WriteLine("Invalid characters. Only letters, digits, spaces, _, -, and . allowed.");
+                continue;
+            }
+
+            
+
+            return input;
+        }
+    }    
 }
+

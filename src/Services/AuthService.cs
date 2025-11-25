@@ -27,8 +27,8 @@ public static class AuthService
         return allowedRoles.Contains(userRole.ToLower());
     }
 
-    // Register new user
-    public static bool Register(Models.User user)
+    // Register
+   public static bool Register(Models.User user)
     {
         Env.Load();
         bool status = false;
@@ -102,4 +102,6 @@ public static class AuthService
 
         return user;
     }
+
+    
 }
