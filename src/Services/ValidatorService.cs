@@ -36,6 +36,18 @@ public static class ValidatorService
         return RolePattern.IsMatch(role);
     }
 
+    private static readonly Regex BookFieldPattern =
+    new(@"^[a-zA-Z0-9 .,'-]{1,100}$", RegexOptions.Compiled);
+
+    public static bool IsValidBookField(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        return BookFieldPattern.IsMatch(input);
+    }
+
+
     // Optional: interactive input method (like before)
     public static string SafeStringInput()
     {

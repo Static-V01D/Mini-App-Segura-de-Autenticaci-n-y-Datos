@@ -144,5 +144,34 @@ namespace LibraryApp.Services
             File.WriteAllText(filePath!, jsonString);
             return true;
         }
+
+        public static bool BookExists(string title, string author)
+        {
+            Env.Load();
+
+            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+
+            if (!File.Exists(filePath))
+                return false;
+
+            List<Book>? booksList = JsonSerializer.Deserialize<List<Book>>(File.ReadAllText(filePath));
+
+            if (booksList is null || booksList.Count == 0)
+                return false;
+
+            bool exists = booksList.Any(b =>
+                b.GetTitle().Equals(title, StringComparison.OrdinalIgnoreCase) &&
+                b.GetAuthor().Equals(author, StringComparison.OrdinalIgnoreCase)
+            );
+
+            if (exists)
+                LogService.Log($"[BOOKEXISTS] '{title}' by {author} found.");
+            else
+                LogService.Log($"[BOOKEXISTS] '{title}' by {author} NOT found.");
+
+            return exists;
+        }
     }
 }

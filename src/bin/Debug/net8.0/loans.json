@@ -4,7 +4,7 @@
     "BookId": 23,
     "MemberId": 1,
     "CheckoutDate": "2025-11-24",
-    "DueDate": "2025-12-25",
+    "DueDate": "2026-12-26",
     "ReturnDate": null,
     "Status": "checked_out"
   }

@@ -419,14 +419,35 @@ namespace LibraryApp
                 
             }
             // --- REQUEST HOLD ---
-            static void AddRequest(User user)
+           static void AddRequest(User user)
             {
                 Console.Write("Enter Book Title to request hold: ");
-                string title = Console.ReadLine() ?? "";
-                Console.Write("Enter Book Author to request hold: ");
-                string author = Console.ReadLine() ?? "";
+                string title = ValidatorService.SafeStringInput();
 
+                Console.Write("Enter Book Author to request hold: ");
+                string author = ValidatorService.SafeStringInput();
+
+                // Validate title & author formatting
+                if (!ValidatorService.IsValidBookField(title) || !ValidatorService.IsValidBookField(author))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nInvalid title or author format.\n");
+                    Console.ResetColor();
+                    return;
+                }
+
+                // Check database for book existence
+                if (!BookService.BookExists(title, author))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"\nBook '{title}' by {author} does NOT exist in the database.\n");
+                    Console.ResetColor();
+                    return;
+                }
+
+                // Create the request
                 var request = new Models.Request(user, new Book(title, author));
+
                 bool success = RequestService.AddRequest(request);
 
                 if (success)
@@ -442,6 +463,8 @@ namespace LibraryApp
 
                 Console.ResetColor();
             }
+
+
 
             // --- LOAN MANAGEMENT ---
 
@@ -594,23 +617,63 @@ namespace LibraryApp
         }
 
 
-        static void UpdateLoan() //Solo cambiar due date
+       static void UpdateLoan() // Solo cambiar due date
         {
             Console.Write("Enter Loan ID: ");
-            int loanId = int.Parse(Console.ReadLine() ?? "0");
+            string? loanIdInput = Console.ReadLine();
 
-            Console.Write("Enter new due date (MM/DD/YYYY): ");
-            DateOnly newDate = DateOnly.Parse(Console.ReadLine() ?? "");
+            if (!int.TryParse(loanIdInput, out int loanId) || loanId <= 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid Loan ID.");
+                Console.ResetColor();
+                return;
+            }
+
+            Console.Write("Enter new due date (dd-MM-yyyy or dd/MM/yyyy): ");
+            string? input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Date cannot be empty.");
+                Console.ResetColor();
+                return;
+            }
+
+            // Try parsing with the same formats used in AddLoan
+            DateOnly newDate;
+            try
+            {
+                newDate = DateOnly.ParseExact(
+                    input,
+                    new[] { "dd-MM-yyyy", "dd/MM/yyyy" },
+                    null
+                );
+            }
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid date format. Use dd-MM-yyyy or dd/MM/yyyy.");
+                Console.ResetColor();
+                return;
+            }
 
             if (LoanService.UpdateLoan(loanId, newDate))
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Due date updated successfully!");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Loan not found.");
+                Console.ResetColor();
             }
         }
+
+
         // --- LOGGING ---
 
         static void Log(string message)

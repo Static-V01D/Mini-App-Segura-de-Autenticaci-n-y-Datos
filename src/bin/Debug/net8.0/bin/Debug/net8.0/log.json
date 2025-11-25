@@ -298,5 +298,53 @@
   {
     "Timestamp": "2025-11-24T22:52:32.164607-04:00",
     "Message": "[GETREQUETS] All Requests of User: User: Name= Loli, role= member, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     found."
+  },
+  {
+    "Timestamp": "2025-11-25T12:08:05.3976531-04:00",
+    "Message": "[LOGIN] -805037305 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:15:00.231242-04:00",
+    "Message": "[LOGIN] -883284539 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:17:36.9484241-04:00",
+    "Message": "[LOGIN] -1376556871 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:17:57.3223489-04:00",
+    "Message": "[LOGIN] 239969499 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:19:33.1361508-04:00",
+    "Message": "User User: Name= Luis, role= librarian, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-25T12:20:22.5642957-04:00",
+    "Message": "[LOGIN] 2135384166 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:20:46.4037636-04:00",
+    "Message": "User User: Name= Luis, role= librarian, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-25T12:58:22.8162936-04:00",
+    "Message": "[LOGIN] 991816599 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T12:58:30.1283958-04:00",
+    "Message": "[GETREQUETS] All Requests of User: User: Name= poki, role= member, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     found."
+  },
+  {
+    "Timestamp": "2025-11-25T12:58:40.5650819-04:00",
+    "Message": "[BOOKEXISTS] \u0027opopopopop\u0027 by kjkjkjkndkank NOT found."
+  },
+  {
+    "Timestamp": "2025-11-25T12:58:46.6782487-04:00",
+    "Message": "[GETREQUETS] All Requests of User: User: Name= poki, role= member, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     found."
+  },
+  {
+    "Timestamp": "2025-11-25T12:58:58.4896419-04:00",
+    "Message": "User User: Name= poki, role= member, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     logged out."
   }
 ]
