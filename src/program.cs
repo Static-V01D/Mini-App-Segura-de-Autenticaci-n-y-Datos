@@ -75,7 +75,7 @@ namespace LibraryApp
                 if (!ValidatorService.IsValidPassword(password))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character.");
+                    Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character (! @ # ^ * _ - + ?).");
                     Console.ResetColor();
                 }
             } while (!ValidatorService.IsValidPassword(password));          
@@ -541,7 +541,7 @@ namespace LibraryApp
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("This book is already checked out.");
                         Console.ResetColor();
-                        selectedBook = null; // force loop to continue
+                        selectedBook = null; 
                     }
                 }               
 
@@ -617,7 +617,7 @@ namespace LibraryApp
         }
 
 
-       static void UpdateLoan() // Solo cambiar due date
+       static void UpdateLoan() 
         {
             Console.Write("Enter Loan ID: ");
             string? loanIdInput = Console.ReadLine();

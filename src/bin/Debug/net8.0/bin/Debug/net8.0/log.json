@@ -346,5 +346,33 @@
   {
     "Timestamp": "2025-11-25T12:58:58.4896419-04:00",
     "Message": "User User: Name= poki, role= member, password= 347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-25T18:14:32.0239339-04:00",
+    "Message": "[LOGIN] -1798035778 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T18:15:18.9202066-04:00",
+    "Message": "[LOGIN] -1798035778 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T18:15:36.4842176-04:00",
+    "Message": "[LOGIN] -1798035778 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T18:17:34.9387007-04:00",
+    "Message": "[LOGIN] 839759481 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T18:32:39.8171989-04:00",
+    "Message": "[REGISTER] New user -752145820 created."
+  },
+  {
+    "Timestamp": "2025-11-25T18:47:41.581239-04:00",
+    "Message": "[REGISTER] New user -2037152125 created."
+  },
+  {
+    "Timestamp": "2025-11-25T18:48:19.5913734-04:00",
+    "Message": "[LOGIN] -545002232 logged in."
   }
 ]
