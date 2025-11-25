@@ -6,7 +6,7 @@ public static class ValidatorService
 {
     // --- Regex patterns ---
     private static readonly Regex UsernamePattern = new(@"^[a-zA-Z0-9_.-]{1,50}$", RegexOptions.Compiled);
-    private static readonly Regex PasswordPattern = new(@"^[a-zA-Z0-9_.-]{12,30}$", RegexOptions.Compiled);
+    private static readonly Regex PasswordPattern = new(@"^(?=.*[!@#^*\-+?_])[A-Za-z0-9!@#^*\-+?_]{12,30}$", RegexOptions.Compiled);///Can be changed to enforce more complexity
     private static readonly Regex RolePattern = new(@"^[a-zA-Z]{1,20}$", RegexOptions.Compiled);
 
     // --- Check if username is valid ---
@@ -63,7 +63,7 @@ public static class ValidatorService
 
             if (!UsernamePattern.IsMatch(input))
             {
-                Console.WriteLine("Invalid characters. Only letters, digits, spaces, _, -, and . allowed.");
+                Console.WriteLine("Invalid characters. Only letters, digits, _, -, and . allowed.");
                 continue;
             }
 
