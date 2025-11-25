@@ -8,20 +8,21 @@ namespace LibraryApp.Models;
 public class Book : IEquatable<Book>
 {
     [JsonInclude] private string title;
-    [JsonInclude] private readonly int id; 
+    [JsonInclude] private int id;
+    private static int nextId = 1;
     [JsonInclude] private string author;
-    [JsonInclude] private bool available; 
+    [JsonInclude] private bool available;
 
     public Book(string t, string auth, bool av)
     {
         SetAuthor(auth);
         SetTitle(t);
         SetAvailable(av);
-        id = GetHashCode();
+        id = nextId;
+        nextId++;
     }
     public Book(string t, string auth) : this(t, auth, true) { }
     public Book() : this("placeholder", "placeholder") { }
-
     public void SetTitle(string t)
     {
         if (t is null) throw new ArgumentException(null, nameof(t));
