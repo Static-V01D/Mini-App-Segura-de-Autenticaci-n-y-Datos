@@ -21,6 +21,15 @@ public class User
         id = nextId;
         nextId++;
     }
+    [JsonConstructor]
+    public User(string n, string pass, string r, int id, List<LoanedBooks> l)
+    {
+        SetName(n);
+        SetPassword(pass);
+        SetRole(r);
+        SetLoans(l);
+        this.id = id;
+    }
     public User(string n, string pass, string r) : this(n, pass, r, null)
     {
     }

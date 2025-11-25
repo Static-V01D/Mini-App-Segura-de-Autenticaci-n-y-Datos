@@ -1,4 +1,3 @@
-using DotNetEnv;
 using LibraryApp.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,6 +19,14 @@ public class Book : IEquatable<Book>
         SetAvailable(av);
         id = nextId;
         nextId++;
+    }
+    [JsonConstructor]
+    public Book(string t, string auth, bool av, int id)
+    {
+        SetAuthor(auth);
+        SetTitle(t);
+        SetAvailable(av);
+        this.id = id;
     }
     public Book(string t, string auth) : this(t, auth, true) { }
     public Book() : this("placeholder", "placeholder") { }
