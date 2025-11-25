@@ -147,24 +147,12 @@ namespace LibraryApp.Services
 
         public static bool BookExists(string title, string author)
         {
-            Env.Load();
-
-            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
-
-            if (!File.Exists(filePath))
-                return false;
-
-            List<Book>? booksList = JsonSerializer.Deserialize<List<Book>>(File.ReadAllText(filePath));
+            List<Book>? booksList = GetAllBooks();
 
             if (booksList is null || booksList.Count == 0)
                 return false;
 
-            bool exists = booksList.Any(b =>
-                b.GetTitle().Equals(title, StringComparison.OrdinalIgnoreCase) &&
-                b.GetAuthor().Equals(author, StringComparison.OrdinalIgnoreCase)
-            );
+            bool exists = booksList.Contains(new Book(title, author));
 
             if (exists)
                 LogService.Log($"[BOOKEXISTS] '{title}' by {author} found.");
