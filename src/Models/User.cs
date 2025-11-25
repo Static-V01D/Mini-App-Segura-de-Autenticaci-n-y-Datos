@@ -8,7 +8,7 @@ public class User
     [JsonInclude] private string name;
     [JsonInclude] private string password;// when passing the password to the constructer you must manually Hash the password with the static method Hash
     [JsonInclude] private string role;
-    [JsonInclude] private readonly int id;
+    [JsonInclude] private int id;
     private static int nextId = 1;
     [JsonInclude] private List<LoanedBooks> loans;
 
@@ -28,7 +28,7 @@ public class User
         SetPassword(pass);
         SetRole(r);
         SetLoans(l);
-        this.id = id;
+        SetId(id);
     }
     public User(string n, string pass, string r) : this(n, pass, r, null)
     {
@@ -43,6 +43,10 @@ public class User
     {
     }
 
+    public void SetId(int i)
+    {
+        id = i;
+    }
     public void SetName(string n)
     {
         if (n is null) throw new ArgumentNullException(nameof(n));
