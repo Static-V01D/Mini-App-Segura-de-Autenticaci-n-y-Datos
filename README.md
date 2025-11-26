@@ -140,16 +140,11 @@ Ejemplo `logs/logs.json`:
 Crea en `src/` (o en la raíz si lo prefieres) un archivo `docs/.env.example` con las variables requeridas por la aplicación. Ejemplo mínimo:
 
 ```env
-# Database
-DB_CONNECTION_STRING=
-
-# JWT / Auth
-JWT_SECRET=
-JWT_EXPIRATION_MINUTES=60
-
-# App settings
-APP_ENV=development
-LOG_LEVEL=info
+USERS_DB=your_.json_user_file
+BOOKS_DB=your_.json_books_file
+LOANS_DB=your_.json_loans_file
+LOG_FILE=your_.json_logs_file
+REQUEST_DB=your_.json_requests_file
 ```
 
 En el README principal enlazamos al ejemplo: 📄 [Example of a .env file](docs/.env.example)
@@ -161,12 +156,6 @@ En el README principal enlazamos al ejemplo: 📄 [Example of a .env file](docs/
 Incluimos un modelo de amenazas en `docs/ThreatModels.pdf`.
 
 📄 [Project ThreatModels (PDF)](docs/ThreatModels.pdf)
-
----
-
-## Auditoría / Resultados de seguridad
-
-Incluye en `docs/` una captura de pantalla con el resultado del comando de auditoría (por ejemplo `pip audit`, `dotnet list package --vulnerable`, `npm audit`) como `docs/audit-result.png`.
 
 ---
 
