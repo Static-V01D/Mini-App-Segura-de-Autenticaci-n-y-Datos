@@ -78,8 +78,8 @@ namespace LibraryApp
                     Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character (! @ # ^ * _ - + ?).");
                     Console.ResetColor();
                 }
-            } while (!ValidatorService.IsValidPassword(password));          
-            
+            } while (!ValidatorService.IsValidPassword(password));
+
 
             // Hash password before saving
             string hashedPassword = AuthService.HashPassword(password);
@@ -105,7 +105,7 @@ namespace LibraryApp
 
         private static void LoginUser()
         {
-           string username;
+            string username;
             do
             {
                 Console.Write("\nEnter username: ");
@@ -129,7 +129,7 @@ namespace LibraryApp
                     Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character (! @ # ^ * _ - + ?).");
                     Console.ResetColor();
                 }
-            } while (!ValidatorService.IsValidPassword(password)); 
+            } while (!ValidatorService.IsValidPassword(password));
 
             // Hash password before checking
             string hashedPassword = AuthService.HashPassword(password);
@@ -143,17 +143,22 @@ namespace LibraryApp
                 Console.WriteLine($"\nWelcome, {loggedIn.GetName()}!");
                 Console.WriteLine($"Role: {loggedIn.GetRole()}");
 
+                BookService bookService = new BookService(user);
+                LoanService loanService = new LoanService(user);
+                RequestService requestService = new RequestService(user);
+                LogService logService = new LogService(user);
+
                 if (AuthService.AuthorizedRoles(loggedIn.GetRole(), "librarian", "admin"))
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Access granted: Librarian/Admin functions enabled.\n");
-                    LibrarianMenu(loggedIn);
+                    LibrarianMenu(loggedIn, bookService, requestService, loanService);
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("Access limited: Member functions only.\n");
-                    MemberMenu(loggedIn);
+                    MemberMenu(loggedIn, bookService, requestService);
                 }
             }
             else
@@ -161,9 +166,11 @@ namespace LibraryApp
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n Invalid username or password.\n");
             }
+
+
             // --- MENUS ---
 
-            static void LibrarianMenu(User user)
+            void LibrarianMenu(User user, BookService bookService, RequestService requestService, LoanService loanService)
             {
                 while (true)
                 {
@@ -173,19 +180,19 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case "1": ViewBooks(); break;
-                        case "2": AddBook(); break;
-                        case "3": UpdateBook(); break;
-                        case "4": DeleteBook(); break;
-                        case "5": ManageLoans(user); break;
+                        case "2": AddBook(bookService); break;
+                        case "3": UpdateBook(bookService); break;
+                        case "4": DeleteBook(bookService); break;
+                        case "5": ManageLoans(user, loanService, bookService); break;
                         case "6": AddLibrarian(); break;
-                        case "7": ManageRequests(user); break;
+                        case "7": ManageRequests(user, bookService, requestService); break;
                         case "0": Log($"User {user} logged out."); return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
             }
 
-            static void ManageRequests(User user)
+            void ManageRequests(User user, BookService bookService, RequestService requestService)
             {
                 while (true)
                 {
@@ -195,16 +202,16 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case "1": GetAllRequests(); break;
-                        case "2": AddRequest(user); break;
-                        case "3": RemoveRequest(user); break;
-                        case "4": UpdateRequest(user); break;
+                        case "2": AddRequest(user, bookService, requestService); break;
+                        case "3": RemoveRequest(user, requestService); break;
+                        case "4": UpdateRequest(user, requestService); break;
                         case "0": return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
             }
 
-            static void GetAllRequests()
+            void GetAllRequests()
             {
                 var requests = RequestService.GetAllRequests();
                 if (requests is not null)
@@ -216,9 +223,9 @@ namespace LibraryApp
                 }
             }
 
-            static void GetRequest(Models.User user)
+            void GetRequest(Models.User user, RequestService requestService)
             {
-                var requests = RequestService.GetRequest(user);
+                var requests = requestService.GetRequest(user);
                 if (requests is not null)
                 {
                     foreach (var request in requests)
@@ -228,7 +235,7 @@ namespace LibraryApp
                 }
             }
 
-            static void UpdateRequest(Models.User user)
+            void UpdateRequest(Models.User user, RequestService requestService)
             {
                 Console.Write("Enter existing Book Title: ");
                 string oldTitle = Console.ReadLine() ?? "";
@@ -243,7 +250,7 @@ namespace LibraryApp
                 var oldRequest = new Models.Request(user, new Book(oldTitle, oldAuthor));
                 var newRequest = new Models.Request(user, new Book(newTitle, newAuthor));
 
-                bool success = RequestService.UpdateRequest(oldRequest, newRequest);
+                bool success = requestService.UpdateRequest(oldRequest, newRequest);
 
                 if (success)
                 {
@@ -259,7 +266,7 @@ namespace LibraryApp
                 Console.ResetColor();
             }
 
-            static void RemoveRequest(Models.User user)
+            void RemoveRequest(Models.User user, RequestService requestService)
             {
                 Console.Write("Enter Book Title to remove request: ");
                 string title = Console.ReadLine() ?? "";
@@ -267,7 +274,7 @@ namespace LibraryApp
                 string author = Console.ReadLine() ?? "";
 
                 var request = new Models.Request(user, new Book(title, author));
-                bool success = RequestService.RemoveRequest(request);
+                bool success = requestService.RemoveRequest(request);
 
                 if (success)
                 {
@@ -283,7 +290,7 @@ namespace LibraryApp
                 Console.ResetColor();
             }
 
-            static void AddLibrarian()
+            void AddLibrarian()
             {
                 string username;
                 do
@@ -333,7 +340,7 @@ namespace LibraryApp
             }
 
             // --- MEMBER MENU ---
-            static void MemberMenu(User user)
+            void MemberMenu(User user, BookService bookService, RequestService requestService)
             {
                 while (true)
                 {
@@ -343,9 +350,9 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case "1": ViewBooks(); break;
-                        case "2": GetRequest(user); break;
-                        case "3": AddRequest(user); break;
-                        case "0": Log($"User {user} logged out."); return;
+                        case "2": GetRequest(user, requestService); break;
+                        case "3": AddRequest(user, bookService, requestService); break;
+                        case "0": Log($"User: Id={user.GetId()} Name={user.GetName()} logged out."); return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
                 }
@@ -353,7 +360,7 @@ namespace LibraryApp
 
             // --- BOOK MANAGEMENT ---
 
-            static void ViewBooks()
+            void ViewBooks()
             {
                 Console.WriteLine("\n=== Books ===");
                 var books = BookService.GetAllBooks();
@@ -366,7 +373,7 @@ namespace LibraryApp
                 }
             }
 
-            static void AddBook()
+            void AddBook(BookService bookService)
             {
                 Console.WriteLine("Enter book title:");
                 string title = Console.ReadLine() ?? "";
@@ -376,16 +383,16 @@ namespace LibraryApp
                 string availabilityInput = Console.ReadLine() ?? "yes";
                 bool isAvailable = availabilityInput.ToLower() == "yes";
 
-                BookService.AddBook(new Book(title, author, isAvailable));
+                bookService.AddBook(new Book(title, author, isAvailable));
             }
 
-            static void UpdateBook()
+            void UpdateBook(BookService bookService)
             {
                 Console.WriteLine("Enter current book title to update:");
                 string currentTitle = Console.ReadLine() ?? "";
                 Console.WriteLine("Enter current book author to update:");
                 string currentAuthor = Console.ReadLine() ?? "";
-                Book existingBook = BookService.GetBook(new Book(currentTitle, currentAuthor)) ?? new Book();
+                Book existingBook = bookService.GetBook(new Book(currentTitle, currentAuthor)) ?? new Book();
 
                 Console.WriteLine("Enter new book title:");
                 string newTitle = Console.ReadLine() ?? "";
@@ -396,30 +403,30 @@ namespace LibraryApp
                 bool isAvailable = availabilityInput.ToLower() == "yes";
 
                 Book updatedBook = new Book(newTitle, newAuthor, isAvailable);
-                BookService.UpdateBook(existingBook, updatedBook);
+                bookService.UpdateBook(existingBook, updatedBook);
             }
 
-            static void DeleteBook()
+            static void DeleteBook(BookService bookService)
             {
                 Console.WriteLine("Enter book title to delete:");
                 string title = Console.ReadLine() ?? "";
                 Console.WriteLine("Enter book author to delete:");
                 string author = Console.ReadLine() ?? "";
-                BookService.RemoveBook(new Book(title, author));
+                bookService.RemoveBook(new Book(title, author));
             }
 
-            static void CheckoutBook(User user)
+            static void CheckoutBook(User user, BookService bookService)
             {
                 Console.Write("Enter Book Title to checkout: ");
                 string title = Console.ReadLine() ?? "";
-                BookService.GetBook(new Book(title, ""));
+                bookService.GetBook(new Book(title, ""));
                 Console.Write("Enter Book Author to checkout: ");
                 string author = Console.ReadLine() ?? "";
-                BookService.GetBook(new Book("", author));
-                
+                bookService.GetBook(new Book("", author));
+
             }
             // --- REQUEST HOLD ---
-           static void AddRequest(User user)
+            static void AddRequest(User user, BookService bookService, RequestService requestService)
             {
                 Console.Write("Enter Book Title to request hold: ");
                 string title = ValidatorService.SafeStringInput();
@@ -437,7 +444,7 @@ namespace LibraryApp
                 }
 
                 // Check database for book existence
-                if (!BookService.BookExists(title, author))
+                if (!bookService.BookExists(title, author))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\nBook '{title}' by {author} does NOT exist in the database.\n");
@@ -448,7 +455,7 @@ namespace LibraryApp
                 // Create the request
                 var request = new Models.Request(user, new Book(title, author));
 
-                bool success = RequestService.AddRequest(request);
+                bool success = requestService.AddRequest(request);
 
                 if (success)
                 {
@@ -468,7 +475,7 @@ namespace LibraryApp
 
             // --- LOAN MANAGEMENT ---
 
-            static void ManageLoans(User user)
+            static void ManageLoans(User user, LoanService loanService, BookService bookService)
             {
                 while (true)
                 {
@@ -478,9 +485,9 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case "1": ViewLoans(); break;
-                        case "2": AddLoan(); break;
-                        case "3": CheckIn(); break;
-                        case "4": UpdateLoan(); break;                       
+                        case "2": AddLoan(loanService); break;
+                        case "3": CheckIn(loanService, bookService); break;
+                        case "4": UpdateLoan(loanService); break;
                         case "0": return;
                         default: Console.WriteLine("Invalid choice."); break;
                     }
@@ -504,7 +511,7 @@ namespace LibraryApp
                 }
             }
 
-            static void AddLoan()
+            static void AddLoan(LoanService loanService)
             {
                 Env.Load();
 
@@ -541,15 +548,15 @@ namespace LibraryApp
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("This book is already checked out.");
                         Console.ResetColor();
-                        selectedBook = null; 
+                        selectedBook = null;
                     }
-                }               
+                }
 
 
                 int memberId;
                 while (true)
                 {
-                    Console.Write("Member ID: ");                    
+                    Console.Write("Member ID: ");
                     if (!int.TryParse(Console.ReadLine(), out memberId))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -558,7 +565,7 @@ namespace LibraryApp
                         continue;
                     }
                     if (!ValidatorService.MemberIdExists(memberId))
-                    {                
+                    {
                         Console.WriteLine($"Member ID {memberId} does not exist.");
                         Console.ResetColor();
                         continue;
@@ -575,12 +582,12 @@ namespace LibraryApp
                 };
 
                 // Add the loan
-                if (LoanService.AddLoan(newLoan))
+                if (loanService.AddLoan(newLoan))
                 {
                     // Update book availability
                     var book = books.First(b => b.GetId() == selectedBook.GetId());
                     var updatedBook = new Book(book.GetTitle(), book.GetAuthor(), false); // false = not available
-                    LogService.Log($"[CHECKOUT] Book '{selectedBook.GetTitle()}' by {selectedBook.GetAuthor()} checked out.");
+                    LogService.Log($"[CHECKOUT] Book '{selectedBook.GetTitle()}' by {selectedBook.GetAuthor()} checked out.", "loans");
                     Console.WriteLine($"Book '{selectedBook.GetTitle()}' checked out successfully!");
                 }
             }
@@ -589,7 +596,7 @@ namespace LibraryApp
 
         }
 
-        static void CheckIn()
+        static void CheckIn(LoanService loanService, BookService bookService)
         {
             Env.Load();
 
@@ -597,7 +604,7 @@ namespace LibraryApp
             int bookId = int.Parse(Console.ReadLine() ?? "0");
 
             // Remove the loan referencing this Book
-            bool removed = LoanService.RemoveLoan(new Loan { BookId = bookId });
+            bool removed = loanService.RemoveLoan(new Loan { BookId = bookId });
 
             if (!removed)
             {
@@ -615,15 +622,15 @@ namespace LibraryApp
             if (book != null)
             {
                 var updatedBook = new Book(book.GetTitle(), book.GetAuthor(), true);
-                BookService.UpdateBook(book, updatedBook);
-                LogService.Log($"[CHECKIN] Book ID {bookId} marked as available.");
+                bookService.UpdateBook(book, updatedBook);
+                LogService.Log($"[CHECKIN] Book ID {bookId} marked as available.", "loans");
             }
 
             Console.WriteLine($"Book ID {bookId} checked in successfully!");
         }
 
 
-       static void UpdateLoan() 
+        static void UpdateLoan(LoanService loanService)
         {
             Console.Write("Enter Loan ID: ");
             string? loanIdInput = Console.ReadLine();
@@ -665,7 +672,7 @@ namespace LibraryApp
                 return;
             }
 
-            if (LoanService.UpdateLoan(loanId, newDate))
+            if (loanService.UpdateLoan(loanId, newDate))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Due date updated successfully!");
@@ -684,7 +691,7 @@ namespace LibraryApp
 
         static void Log(string message)
         {
-            LogService.Log(message);
+            LogService.Log(message, "users");
 
 
         }

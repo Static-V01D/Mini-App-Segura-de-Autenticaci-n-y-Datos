@@ -53,3 +53,17 @@ C:\Users\User\OneDrive\Documents\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\ob
 C:\Users\User\OneDrive\Documents\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.pdb
 C:\Users\User\OneDrive\Documents\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.genruntimeconfig.cache
 C:\Users\User\OneDrive\Documents\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\ref\LibraryApp.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\LibraryApp.exe
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\.env
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\LibraryApp.deps.json
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\LibraryApp.runtimeconfig.json
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\LibraryApp.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\LibraryApp.pdb
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\DotNetEnv.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\bin\Debug\net8.0\Sprache.dll
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.csproj.Up2Date
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\LibraryApp.genruntimeconfig.cache
+d:\UNI\Cyber\Mini-App-Segura-de-Autenticaci-n-y-Datos\src\obj\Debug\net8.0\ref\LibraryApp.dll

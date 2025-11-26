@@ -1,0 +1,13 @@
+# Build folders
+src/bin/
+src/obj/
+
+# Environment files
+.env
+*.env
+
+# Visual Studio
+.vs/
+
+# data
+src/data/

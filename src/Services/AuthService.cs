@@ -28,7 +28,7 @@ public static class AuthService
     }
 
     // Register
-   public static bool Register(Models.User user)
+    public static bool Register(Models.User user)
     {
         Env.Load();
         bool status = false;
@@ -62,7 +62,7 @@ public static class AuthService
 
         jsonString = JsonSerializer.Serialize(accounts, options);
         File.WriteAllText(filePath!, jsonString);
-        LogService.Log($"[REGISTER] New user {user.GetId()} created.");
+        LogService.Log($"[REGISTER] New user {user.GetId()} created.", "users");
         return status;
     }
 
@@ -70,7 +70,7 @@ public static class AuthService
     public static Models.User? Login(Models.User user)
     {
         Env.Load();
-          
+
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");
@@ -90,18 +90,18 @@ public static class AuthService
 
             }
 
-            LogService.Log($"[LOGIN] {user.GetId()} logged in.");
+            LogService.Log($"[LOGIN] User {user.GetId()} logged in.", "users");
 
         }
         else
         {
             // Maybe another Log?
-            LogService.Log($"[LOGIN] {user.GetId()} tried to log in.");
+            LogService.Log($"[LOGIN] User {user.GetId()} tried to log in.", "users");
             user = null;
         }
 
         return user;
     }
 
-    
+
 }

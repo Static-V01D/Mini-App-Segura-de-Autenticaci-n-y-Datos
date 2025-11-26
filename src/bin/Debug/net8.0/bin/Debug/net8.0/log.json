@@ -490,5 +490,9 @@
   {
     "Timestamp": "2025-11-25T20:39:20.0465524-04:00",
     "Message": "[LOGIN] 1 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T21:09:28.1718644-04:00",
+    "Message": "[LOGIN] 1 logged in."
   }
 ]

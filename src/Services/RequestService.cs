@@ -4,9 +4,15 @@ using System.Text.Json;
 
 namespace LibraryApp.Services;
 
-public static class RequestService
+public class RequestService
 {
-    public static bool AddRequest(Models.Request newRequest)
+
+    public User user;
+    public RequestService(User user)
+    {
+        this.user = user;
+    }
+    public bool AddRequest(Models.Request newRequest)
     {
         Env.Load();
 
@@ -35,7 +41,7 @@ public static class RequestService
             {
                 requests.Add(newRequest);
                 status = true;
-                LogService.Log($"[ADDREQUEST] New Request: {newRequest} created.");
+                LogService.Log($"User: {user.GetId()} [ADDREQUEST] New Request: {newRequest} created.", "requests");
             }
 
         }
@@ -53,9 +59,9 @@ public static class RequestService
 
         return JsonSerializer.Deserialize<List<Models.Request>>(File.ReadAllText(filePath));
     }
-    public static List<Models.Request>? GetRequest(Models.User user)
+    public List<Models.Request>? GetRequest(Models.User user)
     {
-         Env.Load();
+        Env.Load();
 
         List<Models.Request>? requestsList = GetAllRequests();
         List<Models.Request>? userRequests = new List<Request>();
@@ -70,25 +76,25 @@ public static class RequestService
             }
             if (userRequests is not null)
             {
-                LogService.Log($"[GETREQUETS] All Requests of User: {user} found.");
+                LogService.Log($"User: {user.GetId()} [GETREQUETS] All Requests of User: {user} found.", "requests");
             }
             else
             {
-                LogService.Log($"[GETREQUETS] User: {user} does not have any requests");
+                LogService.Log($"User: {user.GetId()} [GETREQUETS] User: {user} does not have any requests", "requests");
                 userRequests = null;
             }
 
         }
         else
         {
-            LogService.Log($"[GETREQUETS] There are no Requests");
+            LogService.Log($"User: {user.GetId()} [GETREQUETS] There are no Requests", "requests");
             userRequests = null;
         }
         return userRequests;
     }
-    public static bool RemoveRequest(Models.Request request)
+    public bool RemoveRequest(Models.Request request)
     {
-         Env.Load();
+        Env.Load();
 
         bool status = false;
         List<Models.Request>? requests = new List<Models.Request>();
@@ -113,7 +119,7 @@ public static class RequestService
             {
                 requests.Remove(request);
                 status = true;
-                LogService.Log($"[REMOVERequest] Request: {request} removed.");
+                LogService.Log($"User: {user.GetId()} [REMOVERequest] Request: {request} removed.", "requests");
             }
         }
 
@@ -121,10 +127,10 @@ public static class RequestService
         File.WriteAllText(filePath!, jsonString);
         return status;
     }
-    public static bool UpdateRequest(Models.Request originalRequest, Models.Request updatedRequest)
+    public bool UpdateRequest(Models.Request originalRequest, Models.Request updatedRequest)
     {
-         Env.Load();
-         
+        Env.Load();
+
         string? filePath = Environment.GetEnvironmentVariable("REQUEST_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("REQUEST_DB environment variable not found.");
@@ -136,16 +142,16 @@ public static class RequestService
             int index = requestsList.IndexOf(originalRequest);
             requestsList.RemoveAt(index);
             requestsList.Insert(index, updatedRequest);
-            LogService.Log($"[UPDATEREQUEST] Request: {originalRequest} updated to {updatedRequest}");
+            LogService.Log($"User: {user.GetId()} [UPDATEREQUEST] Request: {originalRequest} updated to {updatedRequest}", "requests");
         }
         else if (requestsList is not null && requestsList.Contains(updatedRequest))
         {
-            LogService.Log($"[UPDATEREQUEST] Request: {updatedRequest} already exist found.");
+            LogService.Log($"User: {user.GetId()} [UPDATEREQUEST] Request: {updatedRequest} already exist found.", "requests");
             return false;
         }
         else
         {
-            LogService.Log($"[UPDATEREQUEST] Request: {originalRequest} not found.");
+            LogService.Log($"User: {user.GetId()} [UPDATEREQUEST] Request: {originalRequest} not found.", "requests");
             return false;
         }
 

@@ -6,9 +6,14 @@ using System.Text.Json;
 using Microsoft.VisualBasic;
 namespace LibraryApp.Services
 {
-    public static class LoanService
-    {        
-        public static bool AddLoan(Models.Loan newLoan)
+    public class LoanService
+    {
+        public User user;
+        public LoanService(User user)
+        {
+            this.user = user;
+        }
+        public bool AddLoan(Models.Loan newLoan)
         {
             bool status = false;
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
@@ -33,7 +38,7 @@ namespace LibraryApp.Services
             if (loans.Any(l => l.BookId == newLoan.BookId && l.Status == "checked_out"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Book ID {newLoan.BookId} is already checked out!");
+                Console.WriteLine($"User: {user.GetId()} Book ID {newLoan.BookId} is already checked out!");
                 Console.ResetColor();
                 return false; // Stop adding
             }
@@ -59,11 +64,11 @@ namespace LibraryApp.Services
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Book ID {newLoan.BookId} checked out successfully!");
             Console.ResetColor();
-
+            LogService.Log($"User: {user.GetId()} [ADDLOAN] Loan {newLoan.LoanId} added.", "loans");
             return status;
         }
 
-        public static bool UpdateLoan(int loanId, DateOnly newDueDate)
+        public bool UpdateLoan(int loanId, DateOnly newDueDate)
         {
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
@@ -82,11 +87,11 @@ namespace LibraryApp.Services
                 filePath,
                 JsonSerializer.Serialize(loans, new JsonSerializerOptions { WriteIndented = true })
             );
-
+            LogService.Log($"User: {user.GetId()} [UPDATELOAN] Loan {loan.LoanId} updated.", "loans");
             return true;
         }
 
-        public static bool RemoveLoan(Loan loanToRemove)
+        public bool RemoveLoan(Loan loanToRemove)
         {
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
@@ -98,18 +103,19 @@ namespace LibraryApp.Services
             var existing = loans.FirstOrDefault(l => l.BookId == loanToRemove.BookId);
 
             if (existing == null)
+            {
+                LogService.Log($"User: {user.GetId()} [REMOVELOAN] Loan {loanToRemove.LoanId} does not exists.", "loans");
                 return false;
-
+            }
             loans.Remove(existing);
 
             File.WriteAllText(filePath, JsonSerializer.Serialize(loans, new JsonSerializerOptions { WriteIndented = true }));
 
-            LogService.Log($"[REMOVELOAN] Loan {existing.LoanId} removed.");
+            LogService.Log($"User: {user.GetId()} [REMOVELOAN] Loan {existing.LoanId} removed.", "loans");
             return true;
         }
 
-
-        public static Models.Loan? GetLoan(Models.Loan loan)
+        public Models.Loan? GetLoan(Models.Loan loan)
         {
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
@@ -126,14 +132,14 @@ namespace LibraryApp.Services
 
             if (foundLoan != null)
             {
-                LogService.Log($"[GETLOAN] Loan: {foundLoan.LoanId} found.");
+                LogService.Log($"User: {user.GetId()} [GETLOAN] Loan: {foundLoan.LoanId} found.", "loans");
                 return foundLoan;
             }
 
-            LogService.Log($"[GETLOAN] Loan: {loan.LoanId} not found.");
+            LogService.Log($"User: {user.GetId()} [GETLOAN] Loan: {loan.LoanId} not found.", "loans");
             return null;
         }
 
-       
+
     }
 }

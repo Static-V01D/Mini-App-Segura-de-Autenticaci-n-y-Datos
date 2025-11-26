@@ -5,9 +5,14 @@ using LibraryApp.Services;
 using System.Text.Json;
 namespace LibraryApp.Services
 {
-    public static class BookService
+    public class BookService
     {
-        public static bool AddBook(Models.Book newBook)
+        public User user;
+        public BookService(User user)
+        {
+            this.user = user;
+        }
+        public bool AddBook(Models.Book newBook)
         {
             bool status = false;
             string jsonString;
@@ -34,7 +39,7 @@ namespace LibraryApp.Services
                 {
                     books.Add(newBook);
                     status = true;
-                    LogService.Log($"[ADDBOOK] New Book: {newBook.GetTitle()} created.");
+                    LogService.Log($"User: {user.GetId()} [ADDBOOK] New Book: {newBook.GetTitle()} created.", "books");
                 }
 
             }
@@ -44,7 +49,7 @@ namespace LibraryApp.Services
             return status;
         }
 
-        public static Models.Book? GetBook(Models.Book book)
+        public Models.Book? GetBook(Models.Book book)
         {
             string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
@@ -62,11 +67,11 @@ namespace LibraryApp.Services
                     }
                 }
 
-                LogService.Log($"[GETBOOK] Book: {book.GetTitle()} found.");
+                LogService.Log($"User: {user.GetId()} [GETBOOK] Book: {book.GetTitle()} found.", "books");
             }
             else
             {
-                LogService.Log($"[GETBOOK] Book: {book.GetTitle()} not found.");
+                LogService.Log($"User: {user.GetId()} [GETBOOK] Book: {book.GetTitle()} not found.", "books");
                 book = null;
             }
 
@@ -82,7 +87,7 @@ namespace LibraryApp.Services
             return JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
         }
 
-        public static bool RemoveBook(Models.Book book)
+        public bool RemoveBook(Models.Book book)
         {
             bool status = false;
             List<Models.Book>? books = new List<Models.Book>();
@@ -107,7 +112,7 @@ namespace LibraryApp.Services
                 {
                     books.Remove(book);
                     status = true;
-                    LogService.Log($"[REMOVEBOOK] Book: {book.GetTitle()} removed.");
+                    LogService.Log($"User: {user.GetId()} [REMOVEBOOK] Book: {book.GetTitle()} removed.", "books");
                 }
             }
 
@@ -115,7 +120,7 @@ namespace LibraryApp.Services
             File.WriteAllText(filePath!, jsonString);
             return status;
         }
-        public static bool UpdateBook(Models.Book originalBook, Models.Book updatedBook)
+        public bool UpdateBook(Models.Book originalBook, Models.Book updatedBook)
         {
             string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
@@ -128,11 +133,11 @@ namespace LibraryApp.Services
                 int index = booksList.IndexOf(originalBook);
                 booksList.RemoveAt(index);
                 booksList.Insert(index, updatedBook);
-                LogService.Log($"[UPDATEBOOK] Book: {originalBook} updated to {updatedBook}");
+                LogService.Log($"User: {user.GetId()} [UPDATEBOOK] Book: {originalBook} updated to {updatedBook}", "books");
             }
             else
             {
-                LogService.Log($"[UPDATEBOOK] Book: {originalBook.GetTitle()} not found.");
+                LogService.Log($"User: {user.GetId()} [UPDATEBOOK] Book: {originalBook.GetTitle()} not found.", "books");
                 return false;
             }
 
@@ -145,7 +150,7 @@ namespace LibraryApp.Services
             return true;
         }
 
-        public static bool BookExists(string title, string author)
+        public bool BookExists(string title, string author)
         {
             List<Book>? booksList = GetAllBooks();
 
@@ -155,9 +160,9 @@ namespace LibraryApp.Services
             bool exists = booksList.Contains(new Book(title, author));
 
             if (exists)
-                LogService.Log($"[BOOKEXISTS] '{title}' by {author} found.");
+                LogService.Log($"User: {user.GetId()} [BOOKEXISTS] '{title}' by {author} found.", "books");
             else
-                LogService.Log($"[BOOKEXISTS] '{title}' by {author} NOT found.");
+                LogService.Log($"User: {user.GetId()} [BOOKEXISTS] '{title}' by {author} NOT found.", "books");
 
             return exists;
         }

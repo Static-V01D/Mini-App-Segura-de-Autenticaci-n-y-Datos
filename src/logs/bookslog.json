@@ -1,0 +1,18 @@
+[
+  {
+    "Timestamp": "2025-11-25T23:24:47.6177001-04:00",
+    "Message": "User: 1 [ADDBOOK] New Book: ASDAD created."
+  },
+  {
+    "Timestamp": "2025-11-25T23:25:35.3422628-04:00",
+    "Message": "User: 1 [GETBOOK] Book: ASDAD found."
+  },
+  {
+    "Timestamp": "2025-11-25T23:26:02.3768912-04:00",
+    "Message": "User: 1 [UPDATEBOOK] Book: Book: Title= ASDAD, Author= ASDASD, Available=True updated to Book: Title= KEVEN\u0027S CHRONICLES, Author= KEVEN, Available=True"
+  },
+  {
+    "Timestamp": "2025-11-25T23:26:44.1810806-04:00",
+    "Message": "User: 1 [REMOVEBOOK] Book: KEVEN\u0027S CHRONICLES removed."
+  }
+]

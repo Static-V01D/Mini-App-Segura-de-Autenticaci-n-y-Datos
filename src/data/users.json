@@ -3,6 +3,13 @@
     "name": "THVpcw==",
     "password": "EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723",
     "role": "librarian",
+    "id": 0,
+    "loans": []
+  },
+  {
+    "name": "S2V2ZW4=",
+    "password": "360A0FA028C3F229CD153F7F4320843CE404DE9F33C73ACF98FFF058F4240E84",
+    "role": "member",
     "id": 1,
     "loans": []
   }
