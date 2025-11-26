@@ -45,6 +45,10 @@
   },
   {
     "Timestamp": "2025-11-26T18:56:35.2719667-04:00",
-    "Message": "User User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n     logged out."
+    "Message": "[REGISTER] New user 1 created."
+  },
+  {
+    "Timestamp": "2025-11-26T18:15:18.3197682-04:00",
+    "Message": "[LOGIN] User 1 logged in."
   }
 ]
