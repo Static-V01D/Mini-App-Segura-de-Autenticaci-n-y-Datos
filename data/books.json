@@ -1,0 +1,26 @@
+[
+  {
+    "title": "ONE PIECE",
+    "id": 2,
+    "author": "EIICHIRO ODA",
+    "available": false
+  },
+  {
+    "title": "LORD OF THE RINGS",
+    "id": 5,
+    "author": "J.R.R. TOLKIEN",
+    "available": true
+  },
+  {
+    "title": "LUIS\u0027S TALES",
+    "id": 2,
+    "author": "LUIS",
+    "available": true
+  },
+  {
+    "title": "[  {    \u0022NAME\u0022: \u0022THVPCW==\u0022,    \u0022PASSWORD\u0022: \u0022CA5A1C8AFD6142C9FDAA7FB3662F0298A8372442C2E6B9640C3B640617D7F425\u0022,    \u0022ROLE\u0022: \u0022MEMBER\u0022,    \u0022ID\u0022: 1,    \u0022LOANS\u0022: []  }]",
+    "id": 1,
+    "author": "[  {    \u0022NAME\u0022: \u0022THVPCW==\u0022,    \u0022PASSWORD\u0022: \u0022CA5A1C8AFD6142C9FDAA7FB3662F0298A8372442C2E6B9640C3B640617D7F425\u0022,    \u0022ROLE\u0022: \u0022MEMBER\u0022,    \u0022ID\u0022: 1,    \u0022LOANS\u0022: []  }]",
+    "available": true
+  }
+]

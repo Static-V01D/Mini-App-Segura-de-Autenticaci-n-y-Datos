@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Luis\\Documents\\GitHub\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj": {}
+    "d:\\UNI\\Cyber\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Luis\\Documents\\GitHub\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj": {
+    "d:\\UNI\\Cyber\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Luis\\Documents\\GitHub\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj",
+        "projectUniqueName": "d:\\UNI\\Cyber\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj",
         "projectName": "LibraryApp",
-        "projectPath": "c:\\Users\\Luis\\Documents\\GitHub\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj",
-        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Luis\\Documents\\GitHub\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\obj\\",
+        "projectPath": "d:\\UNI\\Cyber\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\LibraryApp.csproj",
+        "packagesPath": "C:\\Users\\Keven\\.nuget\\packages\\",
+        "outputPath": "d:\\UNI\\Cyber\\Mini-App-Segura-de-Autenticaci-n-y-Datos\\src\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Keven\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -66,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

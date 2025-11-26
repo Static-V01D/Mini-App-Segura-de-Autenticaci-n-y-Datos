@@ -50,5 +50,25 @@
   {
     "Timestamp": "2025-11-26T18:15:18.3197682-04:00",
     "Message": "[LOGIN] User 1 logged in."
+  },
+  {
+    "Timestamp": "2025-11-26T19:07:07.9658603-04:00",
+    "Message": "[LOGIN] User 0 logged in."
+  },
+  {
+    "Timestamp": "2025-11-26T19:07:38.702235-04:00",
+    "Message": "User User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-26T19:19:49.8916983-04:00",
+    "Message": "[LOGIN] User 0 logged in."
+  },
+  {
+    "Timestamp": "2025-11-26T19:21:10.6085951-04:00",
+    "Message": "User User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-26T19:49:40.8807564-04:00",
+    "Message": "[LOGIN] User 0 logged in."
   }
 ]
