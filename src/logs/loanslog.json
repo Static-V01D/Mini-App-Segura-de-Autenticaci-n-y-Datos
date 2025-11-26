@@ -1,0 +1,26 @@
+[
+  {
+    "Timestamp": "2025-11-25T23:37:21.1292454-04:00",
+    "Message": "User: 1 [ADDLOAN] Loan 2 added."
+  },
+  {
+    "Timestamp": "2025-11-25T23:37:21.1461186-04:00",
+    "Message": "[CHECKOUT] Book \u0027LUIS\u0027S TALES\u0027 by LUIS checked out."
+  },
+  {
+    "Timestamp": "2025-11-25T23:38:25.5193294-04:00",
+    "Message": "User: 1 [REMOVELOAN] Loan 0 does not exists."
+  },
+  {
+    "Timestamp": "2025-11-25T23:38:40.3797764-04:00",
+    "Message": "User: 1 [REMOVELOAN] Loan 2 removed."
+  },
+  {
+    "Timestamp": "2025-11-25T23:38:40.4396942-04:00",
+    "Message": "[CHECKIN] Book ID 6 marked as available."
+  },
+  {
+    "Timestamp": "2025-11-25T23:39:18.3488262-04:00",
+    "Message": "User: 1 [UPDATELOAN] Loan 1 updated."
+  }
+]

@@ -83,8 +83,12 @@ namespace LibraryApp.Services
             string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+            string json = File.ReadAllText(filePath);
 
-            return JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+            if (string.IsNullOrWhiteSpace(json))
+                return new List<Models.Book>();
+
+            return JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath)) ?? new List<Models.Book>();
         }
 
         public bool RemoveBook(Models.Book book)

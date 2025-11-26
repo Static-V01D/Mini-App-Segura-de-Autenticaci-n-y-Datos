@@ -56,7 +56,7 @@ public static class ValidatorService
     public static string SafeStringInput()
     {
         while (true)
-        {           
+        {
             string? input = Console.ReadLine()?.Trim();
 
             if (string.IsNullOrWhiteSpace(input))
@@ -65,26 +65,18 @@ public static class ValidatorService
                 continue;
             }
 
-            if (!UsernamePattern.IsMatch(input))
-            {
-                Console.WriteLine("Invalid characters. Only letters, digits, _, -, and . allowed.");
-                continue;
-            }
-
-            
-
             return input;
         }
-    }    
+    }
 
     public static bool MemberIdExists(int memberId)
-    {    
+    {
         Env.Load();
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");
         List<Models.User>? users = JsonSerializer.Deserialize<List<Models.User>>(File.ReadAllText(filePath));
-        
+
         return users.Any(u => u.GetId() == memberId);
     }
 }

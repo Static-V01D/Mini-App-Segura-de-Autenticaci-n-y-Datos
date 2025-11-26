@@ -57,7 +57,11 @@ public class RequestService
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("REQUEST_DB environment variable not found.");
 
-        return JsonSerializer.Deserialize<List<Models.Request>>(File.ReadAllText(filePath));
+        string json = File.ReadAllText(filePath);
+        if (string.IsNullOrWhiteSpace(json))
+            return new List<Models.Request>();
+
+        return JsonSerializer.Deserialize<List<Models.Request>>(File.ReadAllText(filePath)) ?? new List<Models.Request>();
     }
     public List<Models.Request>? GetRequest(Models.User user)
     {
@@ -119,7 +123,7 @@ public class RequestService
             {
                 requests.Remove(request);
                 status = true;
-                LogService.Log($"User: {user.GetId()} [REMOVERequest] Request: {request} removed.", "requests");
+                LogService.Log($"User: {user.GetId()} [REMOVEREQUEST] Request: {request} removed.", "requests");
             }
         }
 

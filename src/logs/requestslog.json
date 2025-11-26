@@ -1,0 +1,22 @@
+[
+  {
+    "Timestamp": "2025-11-26T00:16:03.0633354-04:00",
+    "Message": "User: 1 [REMOVERequest] Request: Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True removed."
+  },
+  {
+    "Timestamp": "2025-11-26T00:16:32.6407071-04:00",
+    "Message": "User: 1 [ADDREQUEST] New Request: Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True created."
+  },
+  {
+    "Timestamp": "2025-11-26T00:16:47.8813015-04:00",
+    "Message": "User: 1 [REMOVERequest] Request: Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True removed."
+  },
+  {
+    "Timestamp": "2025-11-26T00:17:09.2586988-04:00",
+    "Message": "User: 1 [ADDREQUEST] New Request: Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True created."
+  },
+  {
+    "Timestamp": "2025-11-26T00:17:33.5788794-04:00",
+    "Message": "User: 1 [UPDATEREQUEST] Request: Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True updated to Request: User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n    ,\n Book: Title= LUIS\u0027S TALES, Author= LUIS, Available=True"
+  }
+]

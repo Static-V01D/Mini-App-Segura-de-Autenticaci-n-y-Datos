@@ -165,6 +165,7 @@ namespace LibraryApp
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n Invalid username or password.\n");
+                Console.ResetColor();
             }
 
 
@@ -218,7 +219,7 @@ namespace LibraryApp
                 {
                     foreach (var request in requests)
                     {
-                        Console.WriteLine($"User: {request.GetUser().GetName()}, Book: {request.GetBook().GetTitle()} by {request.GetBook().GetAuthor()}");
+                        Console.WriteLine($"User: {request.GetUser().GetName()} ID: {request.GetUser().GetId()}, Book: {request.GetBook().GetTitle()} by {request.GetBook().GetAuthor()}");
                     }
                 }
             }

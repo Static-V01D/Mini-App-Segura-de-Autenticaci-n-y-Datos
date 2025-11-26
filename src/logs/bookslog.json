@@ -14,5 +14,21 @@
   {
     "Timestamp": "2025-11-25T23:26:44.1810806-04:00",
     "Message": "User: 1 [REMOVEBOOK] Book: KEVEN\u0027S CHRONICLES removed."
+  },
+  {
+    "Timestamp": "2025-11-25T23:38:40.4000173-04:00",
+    "Message": "User: 1 [UPDATEBOOK] Book: Book: Title= LUIS\u0027S TALES, Author= LUIS, Available=True updated to Book: Title= LUIS\u0027S TALES, Author= LUIS, Available=True"
+  },
+  {
+    "Timestamp": "2025-11-26T00:09:34.7368078-04:00",
+    "Message": "User: 1 [BOOKEXISTS] \u0027LORD OF THE RINGS\u0027 by J.R.R. TOLKIEN found."
+  },
+  {
+    "Timestamp": "2025-11-26T00:16:32.6022721-04:00",
+    "Message": "User: 1 [BOOKEXISTS] \u0027LORD OF THE RINGS\u0027 by J.R.R. TOLKIEN found."
+  },
+  {
+    "Timestamp": "2025-11-26T00:17:09.2326019-04:00",
+    "Message": "User: 1 [BOOKEXISTS] \u0027LORD OF THE RINGS\u0027 by J.R.R. TOLKIEN found."
   }
 ]
