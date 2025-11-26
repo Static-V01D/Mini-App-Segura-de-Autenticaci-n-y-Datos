@@ -1,26 +1,20 @@
 [
   {
+    "title": "ONE PIECE",
+    "id": 2,
+    "author": "EIICHIRO ODA",
+    "available": false
+  },
+  {
     "title": "LORD OF THE RINGS",
-    "id": 486944839,
+    "id": 5,
     "author": "J.R.R. TOLKIEN",
     "available": true
   },
   {
-    "title": "ONE PIECE",
-    "id": 486944839,
-    "author": "EIICHIRO ODA",
-    "available": true
-  },
-  {
-    "title": "NARUTO",
-    "id": 486944839,
-    "author": "MASASHI KISHIMOTO",
-    "available": true
-  },
-  {
-    "title": "JOJO\u0027s BIZARRE ADVENTURE",
-    "id": 486944839,
-    "author": "HIROHIKO ARAKI",
-    "available": true
-  }  
+    "title": "LUIS\u0027S TALES",
+    "id": 6,
+    "author": "LUIS",
+    "available": false
+  }
 ]

@@ -1,6 +1,10 @@
 using System.Text.RegularExpressions;
-
+using LibraryApp.Models;
+using System.Text.Json;
+using System.IO;
+using DotNetEnv;
 namespace LibraryApp.Services;
+
 
 public static class ValidatorService
 {
@@ -72,5 +76,16 @@ public static class ValidatorService
             return input;
         }
     }    
+
+    public static bool MemberIdExists(int memberId)
+    {    
+        Env.Load();
+        string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new InvalidOperationException("USERS_DB environment variable not found.");
+        List<Models.User>? users = JsonSerializer.Deserialize<List<Models.User>>(File.ReadAllText(filePath));
+        
+        return users.Any(u => u.GetId() == memberId);
+    }
 }
 

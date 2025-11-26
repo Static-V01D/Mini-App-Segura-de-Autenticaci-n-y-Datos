@@ -374,5 +374,121 @@
   {
     "Timestamp": "2025-11-25T18:48:19.5913734-04:00",
     "Message": "[LOGIN] -545002232 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:45:40.8438814-04:00",
+    "Message": "[LOGIN] 1 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:46:38.2077907-04:00",
+    "Message": "[LOGIN] 2 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:47:28.2458287-04:00",
+    "Message": "[REGISTER] New user 1 created."
+  },
+  {
+    "Timestamp": "2025-11-25T19:48:00.3076307-04:00",
+    "Message": "[LOGIN] 2 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:48:25.7965245-04:00",
+    "Message": "[LOGIN] 3 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:48:46.2768208-04:00",
+    "Message": "[LOGIN] 4 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:49:13.6310828-04:00",
+    "Message": "[REGISTER] New user 5 created."
+  },
+  {
+    "Timestamp": "2025-11-25T19:50:11.8087021-04:00",
+    "Message": "[REGISTER] New user 6 created."
+  },
+  {
+    "Timestamp": "2025-11-25T19:56:20.5877596-04:00",
+    "Message": "[LOGIN] 1 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:56:31.0002197-04:00",
+    "Message": "[LOGIN] 2 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T19:56:45.2753743-04:00",
+    "Message": "[REGISTER] New user 3 created."
+  },
+  {
+    "Timestamp": "2025-11-25T19:59:26.8330284-04:00",
+    "Message": "[REGISTER] New user 1 created."
+  },
+  {
+    "Timestamp": "2025-11-25T19:59:56.978441-04:00",
+    "Message": "[LOGIN] 1 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:00:12.1678758-04:00",
+    "Message": "[LOGIN] 2 tried to log in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:07:08.6972248-04:00",
+    "Message": "[REGISTER] New user 1 created."
+  },
+  {
+    "Timestamp": "2025-11-25T20:07:25.0460069-04:00",
+    "Message": "[LOGIN] 1 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:09:59.5484348-04:00",
+    "Message": "[LOGIN] 1 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:10:51.0789556-04:00",
+    "Message": "[ADDBOOK] New Book: ONE PIECE created."
+  },
+  {
+    "Timestamp": "2025-11-25T20:12:07.6911447-04:00",
+    "Message": "[LOGIN] 1 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:13:05.7893056-04:00",
+    "Message": "[REMOVELOAN] Loan 1 removed."
+  },
+  {
+    "Timestamp": "2025-11-25T20:15:09.4314215-04:00",
+    "Message": "[CHECKOUT] Book \u0027LORD OF THE RINGS\u0027 by J.R.R. TOLKIEN checked out."
+  },
+  {
+    "Timestamp": "2025-11-25T20:27:09.495004-04:00",
+    "Message": "[LOGIN] 1 logged in."
+  },
+  {
+    "Timestamp": "2025-11-25T20:28:53.1672386-04:00",
+    "Message": "[GETBOOK] Book: LORD OF THE RINGS found."
+  },
+  {
+    "Timestamp": "2025-11-25T20:29:55.4501098-04:00",
+    "Message": "[UPDATEBOOK] Book: Book: Title= LORD OF THE RINGS, Author= J.R.R. TOLKIEN, Available=True updated to Book: Title= LORD OF THE RINGS #2, Author= J.R.R. TOLKIEN JR, Available=True"
+  },
+  {
+    "Timestamp": "2025-11-25T20:32:08.1360374-04:00",
+    "Message": "[REMOVEBOOK] Book: LORD OF THE RINGS #2 removed."
+  },
+  {
+    "Timestamp": "2025-11-25T20:33:06.7319333-04:00",
+    "Message": "[ADDBOOK] New Book: LORD OF THE RINGS created."
+  },
+  {
+    "Timestamp": "2025-11-25T20:33:34.9346676-04:00",
+    "Message": "[ADDBOOK] New Book: LUIS\u0027S TALES created."
+  },
+  {
+    "Timestamp": "2025-11-25T20:33:55.2432064-04:00",
+    "Message": "User User: Name= Luis, role= librarian, password= EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723,\n     logged out."
+  },
+  {
+    "Timestamp": "2025-11-25T20:39:20.0465524-04:00",
+    "Message": "[LOGIN] 1 tried to log in."
   }
 ]

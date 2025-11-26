@@ -113,7 +113,7 @@ namespace LibraryApp
                 if (!ValidatorService.IsValidUsername(username))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid username format!");
+                    Console.WriteLine("Invalid username! Use 1-50 letters, digits, _, -, or spaces.");
                     Console.ResetColor();
                 }
             } while (!ValidatorService.IsValidUsername(username));
@@ -126,7 +126,7 @@ namespace LibraryApp
                 if (!ValidatorService.IsValidPassword(password))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid password format!");
+                    Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character (! @ # ^ * _ - + ?).");
                     Console.ResetColor();
                 }
             } while (!ValidatorService.IsValidPassword(password)); 
@@ -306,7 +306,7 @@ namespace LibraryApp
                     if (!ValidatorService.IsValidPassword(password))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character.");
+                        Console.WriteLine("Invalid password! Must be 12+ chars, with uppercase, lowercase, number, or special character (! @ # ^ * _ - + ?).");
                         Console.ResetColor();
                     }
                 } while (!ValidatorService.IsValidPassword(password));
@@ -549,11 +549,17 @@ namespace LibraryApp
                 int memberId;
                 while (true)
                 {
-                    Console.Write("Member ID: ");
+                    Console.Write("Member ID: ");                    
                     if (!int.TryParse(Console.ReadLine(), out memberId))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid input. Please enter a number.");
+                        Console.ResetColor();
+                        continue;
+                    }
+                    if (!ValidatorService.MemberIdExists(memberId))
+                    {                
+                        Console.WriteLine($"Member ID {memberId} does not exist.");
                         Console.ResetColor();
                         continue;
                     }

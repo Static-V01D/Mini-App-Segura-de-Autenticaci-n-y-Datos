@@ -3,63 +3,7 @@
     "name": "THVpcw==",
     "password": "EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723",
     "role": "librarian",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "UG9raQ==",
-    "password": "76F35F1CCAF03767815F9BCC82E1D978FD61101E33622A9DD07B42D4D10E376C",
-    "role": "member",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "Qm9i",
-    "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
-    "role": "jw",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "VWJp",
-    "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
-    "role": "member",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "S2V2ZW4=",
-    "password": "691D4DA0E5F5F099E72EA114DE25C089D4FFC83BD5C4A548E59AC473C32E9831",
-    "role": "librarian",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "cG9raQ==",
-    "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
-    "role": "member",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "TG9saQ==",
-    "password": "347C9A3A91CEEE960653D6C8EF724405F6896279CE72D8E77FC771F7AE2B0BD4",
-    "role": "member",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "TG9nYW4=",
-    "password": "03929E2C77F716C0BBC03F2F49751E67823DA9A15EE4FBE896C2153300761826",
-    "role": "member",
-    "id": -545002232,
-    "loans": []
-  },
-  {
-    "name": "TG9nZ2Vy",
-    "password": "EE537844B60D62D95512519ED3D386ECD1D03939BCFAED1C5BCFD649CCD85723",
-    "role": "member",
-    "id": -2037152125,
+    "id": 1,
     "loans": []
   }
 ]

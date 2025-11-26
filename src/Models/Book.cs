@@ -12,23 +12,23 @@ public class Book : IEquatable<Book>
     [JsonInclude] private string author;
     [JsonInclude] private bool available;
 
-    public Book(string t, string auth, bool av)
+    public Book(string title, string author, bool available)
     {
-        SetAuthor(auth);
-        SetTitle(t);
-        SetAvailable(av);
+        SetAuthor(author);
+        SetTitle(title);
+        SetAvailable(available);
         id = nextId;
         nextId++;
     }
     [JsonConstructor]
-    public Book(string t, string auth, bool av, int id)
+    public Book(string title, string author, bool available, int id)
     {
-        SetAuthor(auth);
-        SetTitle(t);
-        SetAvailable(av);
+        SetAuthor(author);
+        SetTitle(title);
+        SetAvailable(available);
         this.id = id;
     }
-    public Book(string t, string auth) : this(t, auth, true) { }
+    public Book(string title, string author) : this(title, author, true) { }
     public Book() : this("placeholder", "placeholder") { }
     public void SetTitle(string t)
     {

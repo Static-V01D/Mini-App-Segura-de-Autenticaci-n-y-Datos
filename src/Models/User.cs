@@ -12,31 +12,31 @@ public class User
     private static int nextId = 1;
     [JsonInclude] private List<LoanedBooks> loans;
 
-    public User(string n, string pass, string r, List<LoanedBooks> l)
+    public User(string name, string password, string role, List<LoanedBooks> loans)
     {
-        SetName(n);
-        SetPassword(pass);
-        SetRole(r);
-        SetLoans(l);
+        SetBase64Name(name);
+        SetPassword(password);
+        SetRole(role);
+        SetLoans(loans);
         id = nextId;
         nextId++;
     }
     [JsonConstructor]
-    public User(string n, string pass, string r, int id, List<LoanedBooks> l)
+    public User(string name, string password, string role, List<LoanedBooks> loans, int id)
     {
-        SetName(n);
-        SetPassword(pass);
-        SetRole(r);
-        SetLoans(l);
+        SetName(name);
+        SetPassword(password);
+        SetRole(role);
+        SetLoans(loans);
         SetId(id);
     }
-    public User(string n, string pass, string r) : this(n, pass, r, null)
+    public User(string name, string password, string role) : this(name, password, role, null)
     {
     }
-    public User(string n, string pass, List<LoanedBooks>? l) : this(n, pass, null, l)
+    public User(string name, string password, List<LoanedBooks>? loans) : this(name, password, null, loans)
     {
     }
-    public User(string n, string pass) : this(n, pass, null, null)
+    public User(string name, string password) : this(name, password, null, null)
     {
     }
     public User() : this("guest", "123", null, null)
@@ -47,13 +47,19 @@ public class User
     {
         id = i;
     }
-    public void SetName(string n)
+    public void SetBase64Name(string n)
     {
         if (n is null) throw new ArgumentNullException(nameof(n));
         else name = Convert.ToBase64String(Encoding.UTF8.GetBytes(n));
 
     }
-    public void SetRole(string r)
+    public void SetName(string n)
+    {
+        if (n is null) throw new ArgumentNullException(nameof(n));
+        else name = n;
+
+    }
+        public void SetRole(string r)
     {
         if (r is null) role = "member";
 
