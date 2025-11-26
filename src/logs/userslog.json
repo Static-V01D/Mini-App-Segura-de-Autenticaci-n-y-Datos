@@ -30,5 +30,13 @@
   {
     "Timestamp": "2025-11-26T00:12:16.4644497-04:00",
     "Message": "[LOGIN] User 0 logged in."
+  },
+  {
+    "Timestamp": "2025-11-26T18:14:30.8854573-04:00",
+    "Message": "[REGISTER] New user 1 created."
+  },
+  {
+    "Timestamp": "2025-11-26T18:15:18.3197682-04:00",
+    "Message": "[LOGIN] User 1 logged in."
   }
 ]
