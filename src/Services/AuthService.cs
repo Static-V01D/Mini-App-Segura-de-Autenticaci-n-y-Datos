@@ -74,7 +74,10 @@ public static class AuthService
         string? filePath = Environment.GetEnvironmentVariable("USERS_DB");
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("USERS_DB environment variable not found.");
-
+        if (!File.Exists(filePath))
+        {
+            using (File.Create(filePath)) { }
+        }
         List<Models.User>? usersList = JsonSerializer.Deserialize<List<Models.User>>(File.ReadAllText(filePath));
 
         if (usersList is not null && usersList.Contains(user))

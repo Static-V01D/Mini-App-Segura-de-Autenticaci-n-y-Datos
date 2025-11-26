@@ -54,6 +54,10 @@ public class RequestService
     {
         Env.Load();
         string? filePath = Environment.GetEnvironmentVariable("REQUEST_DB");
+        if (!File.Exists(filePath))
+        {
+            using (File.Create(filePath)) { }
+        }
         if (string.IsNullOrWhiteSpace(filePath))
             throw new InvalidOperationException("REQUEST_DB environment variable not found.");
 

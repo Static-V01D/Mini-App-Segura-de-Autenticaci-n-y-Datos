@@ -120,7 +120,10 @@ namespace LibraryApp.Services
             string? filePath = Environment.GetEnvironmentVariable("LOANS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("LOANS_DB environment variable not found.");
-
+            if (!File.Exists(filePath))
+            {
+                using (File.Create(filePath)) { }
+            }
             var json = File.ReadAllText(filePath);
             var loansList = JsonSerializer.Deserialize<List<Models.Loan>>(json) ?? new();
 

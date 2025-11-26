@@ -51,11 +51,7 @@ namespace LibraryApp.Services
 
         public Models.Book? GetBook(Models.Book book)
         {
-            string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new InvalidOperationException("BOOKS_DB environment variable not found.");
-
-            List<Models.Book>? booksList = JsonSerializer.Deserialize<List<Models.Book>>(File.ReadAllText(filePath));
+            List<Models.Book>? booksList = GetAllBooks();
             if (booksList is not null && booksList.Contains(book))
             {
                 foreach (var item in booksList)
@@ -83,6 +79,10 @@ namespace LibraryApp.Services
             string? filePath = Environment.GetEnvironmentVariable("BOOKS_DB");
             if (string.IsNullOrWhiteSpace(filePath))
                 throw new InvalidOperationException("BOOKS_DB environment variable not found.");
+            if (!File.Exists(filePath))
+            {
+                using (File.Create(filePath)) { }
+            }
             string json = File.ReadAllText(filePath);
 
             if (string.IsNullOrWhiteSpace(json))
